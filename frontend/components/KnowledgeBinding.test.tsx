@@ -1,0 +1,32 @@
+import { fireEvent, render, screen } from '@testing-library/react';
+import { expect, it, vi } from 'vitest';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { KnowledgeBinding } from './KnowledgeBinding';
+import { api } from '@/lib/api';
+vi.mock('@/lib/api', () => ({ api: { get: vi.fn() } }));
+it('allows target-scope binding even when the manager lacks personal retrieval access', async () => {
+ vi.mocked(api.get).mockResolvedValue({items:[{id:'kb',name:'制度',scope:{name:'公司'},enabled:true,actions:{use:false,manage:false,download:false}}],total:1,page:1,page_size:100});
+ const change = vi.fn();
+ const client = new QueryClient({defaultOptions:{queries:{retry:false}}});
+ const view = (ids:string[]) => <QueryClientProvider client={client}><KnowledgeBinding scopeId="personal" value={{knowledge_base_ids:ids,parameters:{mode:'agentic',top_k:5}}} onChange={change} /></QueryClientProvider>;
+ const {rerender} = render(view([]));
+ const candidate = await screen.findByLabelText(/制度/);
+ expect(candidate).not.toBeDisabled();
+ fireEvent.click(candidate);
+ expect(change).toHaveBeenCalledWith({knowledge_base_ids:['kb'],parameters:{mode:'agentic',top_k:5}});
+ expect(screen.queryByLabelText('由 Agent 自主决定何时检索')).toBeNull();
+ rerender(view(['kb']));
+ expect(screen.getAllByLabelText(/制度/)).toHaveLength(1);
+ expect(screen.getByLabelText(/制度/)).toBeChecked();
+ expect(screen.queryByText(/绑定范围未开放或资源已移除/)).toBeNull();
+ fireEvent.click(screen.getByLabelText('由 Agent 自主决定何时检索'));
+ expect(change).toHaveBeenLastCalledWith({knowledge_base_ids:['kb'],parameters:{mode:'static',top_k:5}});
+});
+it('retains unavailable bindings for explicit removal and exposes load failures',async()=>{
+ vi.mocked(api.get).mockRejectedValue(new Error('offline'));
+ const change=vi.fn();
+ render(<QueryClientProvider client={new QueryClient({defaultOptions:{queries:{retry:false}}})}><KnowledgeBinding scopeId="personal" unavailableIds={['missing']} value={{knowledge_base_ids:['missing'],parameters:{mode:'static',top_k:5}}} onChange={change}/></QueryClientProvider>);
+ expect(await screen.findByRole('alert')).toHaveTextContent('知识库加载失败');
+ fireEvent.click(screen.getByLabelText(/绑定范围未开放或资源已移除/));
+ expect(change).toHaveBeenCalledWith({knowledge_base_ids:[],parameters:{mode:'static',top_k:5}});
+});

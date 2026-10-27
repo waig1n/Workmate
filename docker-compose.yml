@@ -1,0 +1,327 @@
+name: workmate
+
+services:
+  qdrant:
+    # Optional knowledge service; no host ports published by default.
+    image: qdrant/qdrant:v1.19.1
+    profiles: [knowledge]
+    restart: unless-stopped
+    environment:
+      QDRANT__SERVICE__API_KEY: ${KNOWLEDGE_QDRANT_API_KEY:-}
+    # Authentication is required even on internal networks: Agent sandboxes can access the Runtime network.
+    entrypoint: [/bin/sh, -ec]
+    command:
+      - ': "$${QDRANT__SERVICE__API_KEY:?Set KNOWLEDGE_QDRANT_API_KEY}"; exec /qdrant/qdrant'
+    volumes:
+      - knowledge-vectors:/qdrant/storage
+
+  rustfs:
+    # Pinned release shared by default Skill storage and optional RAG; no host ports published.
+    image: rustfs/rustfs:1.0.0-rc.6
+    restart: unless-stopped
+    environment:
+      # S3 listen address; accessible only within the Compose network.
+      RUSTFS_ADDRESS: 0.0.0.0:9000
+      # Single-node source-document directory on a dedicated RustFS volume.
+      RUSTFS_VOLUMES: /data
+      # Disable the management console; source-document access requires Product authorization.
+      RUSTFS_CONSOLE_ENABLE: "false"
+      # Share server credential variables with Runtime and initialization scripts; no public default password.
+      RUSTFS_ACCESS_KEY: ${KNOWLEDGE_S3_ACCESS_KEY:-}
+      RUSTFS_SECRET_KEY: ${KNOWLEDGE_S3_SECRET_KEY:-}
+    volumes:
+      - knowledge-rustfs-data:/data
+    healthcheck:
+      test: [CMD, curl, -fsS, http://127.0.0.1:9000/health]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 20s
+
+  storage-init:
+    # Reuse the Worker's S3 SDK; build runtime first. Does not require minio/mc.
+    image: workmate-runtime:2.0
+    depends_on:
+      rustfs:
+        condition: service_healthy
+    environment:
+      # Local object-store initialization only; configuration must match Runtime.
+      KNOWLEDGE_S3_ENDPOINT: ${KNOWLEDGE_S3_ENDPOINT:-http://rustfs:9000}
+      KNOWLEDGE_S3_ACCESS_KEY: ${KNOWLEDGE_S3_ACCESS_KEY:-}
+      KNOWLEDGE_S3_SECRET_KEY: ${KNOWLEDGE_S3_SECRET_KEY:-}
+      KNOWLEDGE_S3_BUCKET: ${KNOWLEDGE_S3_BUCKET:-workmate-knowledge}
+      # Separate Skill and knowledge connections; initializes local buckets only. Operators provision external buckets.
+      SKILL_S3_ENDPOINT: ${SKILL_S3_ENDPOINT:-http://rustfs:9000}
+      SKILL_S3_ACCESS_KEY: ${SKILL_S3_ACCESS_KEY:-}
+      SKILL_S3_SECRET_KEY: ${SKILL_S3_SECRET_KEY:-}
+      SKILL_S3_BUCKET: ${SKILL_S3_BUCKET:-workmate-skills}
+      # Separate private artifact/attachment bucket; S3 mode only. Credentials never enter Agent sandboxes.
+      ARTIFACT_S3_ENDPOINT: ${ARTIFACT_S3_ENDPOINT:-http://rustfs:9000}
+      ARTIFACT_S3_BUCKET: ${ARTIFACT_S3_BUCKET:-workmate-artifacts}
+      ARTIFACT_S3_ACCESS_KEY: ${ARTIFACT_S3_ACCESS_KEY:-}
+      ARTIFACT_S3_SECRET_KEY: ${ARTIFACT_S3_SECRET_KEY:-}
+      # Initialize the knowledge bucket according to YAML product.knowledge.enabled.
+      WORKMATE_CONFIG_FILE: /app/config/workmate.yaml
+      # Show bounded retry progress immediately without printing credentials.
+      PYTHONUNBUFFERED: "1"
+    volumes:
+      - ./scripts/init_knowledge_bucket.py:/app/init_knowledge_bucket.py:ro
+      - ./scripts/init_storage.py:/app/init_storage.py:ro
+      - ./config/workmate.yaml:/app/config/workmate.yaml:ro
+    entrypoint: [python, /app/init_storage.py]
+    restart: "no"
+
+  searxng:
+    image: searxng/searxng:2026.7.31-057a77168
+    # Optional Web services: docker compose --profile web-tool up -d
+    profiles: [web-tool]
+    restart: unless-stopped
+    environment:
+      # Validated only when starting this service. Set a random value in .env; never commit it.
+      SEARXNG_SECRET: ${SEARXNG_SECRET:-}
+      # Read-only configuration mount prevents entrypoint scripts from changing host file ownership.
+      FORCE_OWNERSHIP: "false"
+    entrypoint: ["/bin/sh", "-ec"]
+    command:
+      - ': "$${SEARXNG_SECRET:?Set SEARXNG_SECRET in .env}"; exec /usr/local/searxng/entrypoint.sh'
+    volumes:
+      - ./config/searxng/settings.yml:/etc/searxng/settings.yml:ro
+    # Compose-only access at searxng:8080; no host ports published.
+
+  crawl4ai:
+    image: unclecode/crawl4ai:0.9.2
+    environment:
+      # Without a token the image binds only to loopback; the same token is mapped to Runtime WEB_FETCH_API_TOKEN.
+      CRAWL4AI_API_TOKEN: ${WEB_FETCH_API_TOKEN:-}
+      # With a token configured, listen on the container network; no host ports published.
+      GUNICORN_BIND: 0.0.0.0:11235
+    profiles: [web-tool]
+    restart: unless-stopped
+    # Chromium shared memory, not a total container memory limit.
+    shm_size: "1gb"
+    # Compose-only access at crawl4ai:11235; no host ports published.
+
+  postgres:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-workmate}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-workmate-dev-password}
+      POSTGRES_DB: ${POSTGRES_DB:-workmate}
+    volumes:
+      # PostgreSQL 18 stores clusters below a major-version-specific
+      # subdirectory. Mount the parent so pg_upgrade --link can work later.
+      # The volume name identifies the PostgreSQL major version.
+      - native-pg-data-v18:/var/lib/postgresql
+      # AgentScope runtime uses its own database in the same instance.
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-workmate}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    # Persist the command queue; up to about one second of delivery may be lost and repaired from the PG outbox. Reject writes at capacity; never evict unacknowledged messages.
+    command: [redis-server, --appendonly, "yes", --appendfsync, everysec, --maxmemory, 512mb, --maxmemory-policy, noeviction]
+    volumes:
+      - command-redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # Default execution role: consumes durable commands without starting AgentScope App.
+  runtime:
+    # Recover process failures automatically; does not replace database migrations or readiness checks.
+    restart: unless-stopped
+    # Separate Worker and Product API images built from the same source revision.
+    image: workmate-runtime:2.0
+    # Reap orphaned container subprocesses; shutdown grace must exceed Worker drain and auxiliary cleanup time.
+    init: true
+    # Nested Bubblewrap requires these container permissions; Agent subprocesses clear capabilities and environment themselves.
+    security_opt:
+      - seccomp:unconfined
+      - apparmor:unconfined
+    cap_add:
+      - SYS_ADMIN
+    stop_grace_period: ${WORKMATE_WORKER_STOP_GRACE_PERIOD:-90s}
+    # Container-network health and token-protected knowledge-management endpoints; no Agent execution API.
+    expose: ["8000"]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 60s
+    build:
+      context: .
+      dockerfile: runtime/Dockerfile
+      target: worker
+      args:
+        PIP_INDEX_URL: ${PIP_INDEX_URL:-https://pypi.tuna.tsinghua.edu.cn/simple}
+        PIP_DEFAULT_TIMEOUT: ${PIP_DEFAULT_TIMEOUT:-120}
+    environment:
+      WORKMATE_CONFIG_FILE: /app/config/workmate.yaml
+      # Private S3 endpoint for Skill packages; HTTP(S) only, without embedded credentials, query, or fragment.
+      SKILL_S3_ENDPOINT: ${SKILL_S3_ENDPOINT:-http://rustfs:9000}
+      # API and Worker must share this private bucket; never share with knowledge source documents.
+      SKILL_S3_BUCKET: ${SKILL_S3_BUCKET:-workmate-skills}
+      # Separate private artifact/attachment bucket; S3 mode only. Credentials never enter Agent sandboxes.
+      ARTIFACT_S3_ENDPOINT: ${ARTIFACT_S3_ENDPOINT:-http://rustfs:9000}
+      ARTIFACT_S3_BUCKET: ${ARTIFACT_S3_BUCKET:-workmate-artifacts}
+      ARTIFACT_S3_ACCESS_KEY: ${ARTIFACT_S3_ACCESS_KEY:-}
+      ARTIFACT_S3_SECRET_KEY: ${ARTIFACT_S3_SECRET_KEY:-}
+      # Skill service credentials; never passed through ExecutionSpec, Skill packages, or sandbox environments.
+      SKILL_S3_ACCESS_KEY: ${SKILL_S3_ACCESS_KEY:-}
+      # Skill service secret; used only inside role service processes.
+      SKILL_S3_SECRET_KEY: ${SKILL_S3_SECRET_KEY:-}
+      AS_DATABASE_URL: ${AS_DATABASE_URL:-postgresql+asyncpg://workmate:workmate-dev-password@postgres:5432/workmate_agentscope}
+      AS_REDIS_URL: ${AS_REDIS_URL:-redis://redis:6379/0}
+      GITHUB_TOKEN: ${GITHUB_TOKEN:-}
+      WORKMATE_INTERNAL_TOKEN: ${WORKMATE_INTERNAL_TOKEN:-}
+      WEB_SEARCH_BASE_URL: ${WEB_SEARCH_BASE_URL:-http://searxng:8080}
+      WEB_FETCH_BASE_URL: ${WEB_FETCH_BASE_URL:-http://crawl4ai:11235}
+      WEB_FETCH_API_TOKEN: ${WEB_FETCH_API_TOKEN:-}
+      CHAT_MODEL_API_KEY: ${CHAT_MODEL_API_KEY:-}
+      CHAT_MODEL_BASE_URL: ${CHAT_MODEL_BASE_URL:-}
+      EMBEDDING_MODEL_API_KEY: ${EMBEDDING_MODEL_API_KEY:-}
+      EMBEDDING_MODEL_BASE_URL: ${EMBEDDING_MODEL_BASE_URL:-}
+      # Knowledge-specific embedding credentials/endpoints; no fallback to ReMe EMBEDDING_MODEL_*.
+      KNOWLEDGE_EMBEDDING_MODEL_API_KEY: ${KNOWLEDGE_EMBEDDING_MODEL_API_KEY:-}
+      KNOWLEDGE_EMBEDDING_MODEL_BASE_URL: ${KNOWLEDGE_EMBEDDING_MODEL_BASE_URL:-}
+      KNOWLEDGE_QDRANT_URL: ${KNOWLEDGE_QDRANT_URL:-http://qdrant:6333}
+      KNOWLEDGE_QDRANT_API_KEY: ${KNOWLEDGE_QDRANT_API_KEY:-}
+      KNOWLEDGE_S3_ENDPOINT: ${KNOWLEDGE_S3_ENDPOINT:-http://rustfs:9000}
+      KNOWLEDGE_S3_BUCKET: ${KNOWLEDGE_S3_BUCKET:-workmate-knowledge}
+      KNOWLEDGE_S3_ACCESS_KEY: ${KNOWLEDGE_S3_ACCESS_KEY:-}
+      KNOWLEDGE_S3_SECRET_KEY: ${KNOWLEDGE_S3_SECRET_KEY:-}
+      # Product command/event database; Worker does not run Alembic migrations.
+      DATABASE_URL: ${DATABASE_URL:-postgresql+asyncpg://workmate:workmate-dev-password@postgres:5432/workmate}
+      # Use a stable node ID for each persistent mount; Worker generates a separate process owner ID at each startup.
+      # Best-effort wakeups only; PostgreSQL remains authoritative.
+      WORKMATE_COORDINATION_NAMESPACE: ${WORKMATE_COORDINATION_NAMESPACE:-${COMPOSE_PROJECT_NAME:-workmate}}
+      WORKMATE_COORDINATION_REDIS_URL: ${WORKMATE_COORDINATION_REDIS_URL:-redis://redis:6379/0}
+      WORKMATE_WORKER_STORAGE_NODE_ID: ${WORKMATE_WORKER_STORAGE_NODE_ID:-local-worker-storage}
+      # Docker backend control connection; defaults to the local socket. Requires an explicit Worker mount; never mount into Agent containers.
+      DOCKER_HOST: ${DOCKER_HOST:-unix:///var/run/docker.sock}
+      # Kubernetes configuration path; requires a separate read-only mount. Empty uses in-cluster identity.
+      WORKMATE_SANDBOX_KUBECONFIG: ${WORKMATE_SANDBOX_KUBECONFIG:-}
+      # E2B service credentials and optional domain; never forwarded to Agent environments.
+      E2B_API_KEY: ${E2B_API_KEY:-}
+      # Empty uses the E2B SDK default domain.
+      E2B_DOMAIN: ${E2B_DOMAIN:-}
+      # Daytona service credentials; never forwarded to Agent environments.
+      DAYTONA_API_KEY: ${DAYTONA_API_KEY:-}
+      # Optional Daytona API URL; empty uses the SDK default.
+      DAYTONA_API_URL: ${DAYTONA_API_URL:-}
+      # OpenSandbox service credentials; never forwarded to Agent environments.
+      OPEN_SANDBOX_API_KEY: ${OPEN_SANDBOX_API_KEY:-}
+      # OpenSandbox service host:port; empty uses the SDK default.
+      OPEN_SANDBOX_DOMAIN: ${OPEN_SANDBOX_DOMAIN:-}
+      # Dedicated persistent Worker Workspace/ReMe volume; directory identity must match the storage node.
+      WORKMATE_WORKSPACE_BASEDIR: ${WORKMATE_WORKER_WORKSPACE_BASEDIR:-/worker-data/workspaces}
+      WORKMATE_REME_BASEDIR: ${WORKMATE_WORKER_REME_BASEDIR:-/worker-data/reme}
+      # Rebuildable local Worker Skill cache, separate from Workspace; persisted on the Worker volume by default.
+      WORKMATE_SKILL_CACHE_DIR: ${WORKMATE_SKILL_CACHE_DIR:-/worker-data/skill-cache}
+      # Share immutable artifact/attachment bytes with Product; must be outside Workspace.
+      ARTIFACT_STORAGE_DIR: ${ARTIFACT_STORAGE_DIR:-/data/artifacts}
+    volumes:
+      - ./config/workmate.yaml:/app/config/workmate.yaml:ro
+      - worker-data:/worker-data
+      - native-product-data:/data
+    depends_on:
+      # Consume commands only after API migration and startup. API does not depend on Worker, avoiding a dependency cycle.
+      gateway:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  gateway:
+    # Dedicated Gateway image built from the same source revision as Runtime.
+    image: workmate-gateway:2.0
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+      args:
+        PIP_INDEX_URL: ${PIP_INDEX_URL:-https://pypi.tuna.tsinghua.edu.cn/simple}
+        PIP_DEFAULT_TIMEOUT: ${PIP_DEFAULT_TIMEOUT:-120}
+    environment:
+      WORKMATE_CONFIG_FILE: /app/config/workmate.yaml
+      # Public Workmate frontend URL, gateway only; background links are never inferred from Host.
+      WORKMATE_PUBLIC_URL: ${WORKMATE_PUBLIC_URL:-}
+      # Private S3 endpoint for Skill packages; HTTP(S) only, without embedded credentials, query, or fragment.
+      SKILL_S3_ENDPOINT: ${SKILL_S3_ENDPOINT:-http://rustfs:9000}
+      # API and Worker must share this private bucket; never share with knowledge source documents.
+      SKILL_S3_BUCKET: ${SKILL_S3_BUCKET:-workmate-skills}
+      # Separate private artifact/attachment bucket; S3 mode only. Credentials never enter Agent sandboxes.
+      ARTIFACT_S3_ENDPOINT: ${ARTIFACT_S3_ENDPOINT:-http://rustfs:9000}
+      ARTIFACT_S3_BUCKET: ${ARTIFACT_S3_BUCKET:-workmate-artifacts}
+      ARTIFACT_S3_ACCESS_KEY: ${ARTIFACT_S3_ACCESS_KEY:-}
+      ARTIFACT_S3_SECRET_KEY: ${ARTIFACT_S3_SECRET_KEY:-}
+      # Skill service credentials; never passed through ExecutionSpec, Skill packages, or sandbox environments.
+      SKILL_S3_ACCESS_KEY: ${SKILL_S3_ACCESS_KEY:-}
+      # Skill service secret; used only inside role service processes.
+      SKILL_S3_SECRET_KEY: ${SKILL_S3_SECRET_KEY:-}
+      DATABASE_URL: ${DATABASE_URL:-postgresql+asyncpg://workmate:workmate-dev-password@postgres:5432/workmate}
+      # Container Alembic configuration path for the RBAC migration CLI; contains no secrets.
+      WORKMATE_ALEMBIC_CONFIG: ${WORKMATE_ALEMBIC_CONFIG:-/app/alembic.ini}
+      # Stable storage node identity for Product admission; must match the target Worker's persistent mount.
+      # Best-effort wakeups only; PostgreSQL remains authoritative.
+      WORKMATE_COORDINATION_NAMESPACE: ${WORKMATE_COORDINATION_NAMESPACE:-${COMPOSE_PROJECT_NAME:-workmate}}
+      WORKMATE_COORDINATION_REDIS_URL: ${WORKMATE_COORDINATION_REDIS_URL:-redis://redis:6379/0}
+      WORKMATE_WORKER_STORAGE_NODE_ID: ${WORKMATE_WORKER_STORAGE_NODE_ID:-local-worker-storage}
+      # Knowledge-management HTTP only; Task execution uses durable Product commands.
+      # Trusted multi-machine node directory as JSON; empty preserves single-node deployment. Never supplied by user requests.
+      WORKMATE_WORKER_NODES: ${WORKMATE_WORKER_NODES:-[]}
+      RUNTIME_BASE_URL: ${RUNTIME_BASE_URL:-http://runtime:8000}
+      JWT_SECRET: ${JWT_SECRET:-change-me-in-production}
+      RUNTIME_INTERNAL_TOKEN: ${WORKMATE_INTERNAL_TOKEN:-}
+      # GitHub MCP public catalog rate-limit credentials; used only when the catalog is enabled in YAML.
+      GITHUB_TOKEN: ${GITHUB_TOKEN:-}
+      ARTIFACT_STORAGE_DIR: ${ARTIFACT_STORAGE_DIR:-/data/artifacts}
+      CHAT_MODEL_API_KEY: ${CHAT_MODEL_API_KEY:-}
+      CHAT_MODEL_BASE_URL: ${CHAT_MODEL_BASE_URL:-}
+    # Checks API readiness only, not Worker. Migration failure must not report healthy early.
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=3)"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 30s
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./config/workmate.yaml:/app/config/workmate.yaml:ro
+      - native-product-data:/data
+    depends_on:
+      postgres:
+        condition: service_healthy
+      # The private Skill package bucket must exist before builtin Skill bootstrap.
+      storage-init:
+        condition: service_completed_successfully
+
+  frontend:
+    # Frontend image uses the same source revision as Gateway/Runtime.
+    image: workmate-frontend:2.0
+    build:
+      context: ./frontend
+      args:
+        PRODUCT_API_URL: ${PRODUCT_API_URL:-http://gateway:8080}
+    ports:
+      - "3000:3000"
+    depends_on:
+      gateway:
+        condition: service_started
+
+volumes:
+  command-redis-data:
+  knowledge-vectors:
+  knowledge-rustfs-data:
+  native-pg-data-v18:
+  worker-data:
+  native-product-data:

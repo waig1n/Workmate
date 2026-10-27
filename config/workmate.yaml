@@ -1,0 +1,465 @@
+# Version-controlled, non-sensitive workmate system configuration.
+#
+# Precedence: nonempty environment variables/.env > this file > code defaults.
+# Default Compose does not forward policy overrides; use direct startup or explicit deployment overrides.
+# Inject passwords, API keys, and database connections through environment variables, never this file.
+# Set the public frontend URL once through WORKMATE_PUBLIC_URL, rather than per channel.
+# Restart gateway and runtime after changes; hot reload is not supported.
+# Add adjacent comments and update both language configuration guides when adding settings.
+
+# Configuration schema version; only 1 is supported. Required; do not increment manually.
+version: 1
+
+product:
+  # Enterprise IM channels; credentials are stored through controlled APIs, never in YAML.
+  channels:
+    # Accept channel messages; default true. Disabling does not stop existing Tasks.
+    enabled: true
+    # Experimental personal WeChat iLink support; default false. Account verification is still required.
+    wechat_enabled: false
+    # Delay before the first visible waiting notice, seconds; 30-300, default 30. Use 60 if preferred; never delay body delivery or notify after body output.
+    reply_delay_secs: 30
+    # Minimum streamed-body update interval, seconds; 1-10, default 1. Coalesces platform requests without relaxing authorization.
+    stream_interval_secs: 1
+    # Concurrent live-reply subscriptions per Gateway; 1-256, default 64. Excess subscriptions wait; final delivery is preserved.
+    max_live_replies: 64
+    # Processing loop interval, seconds; 1-30, default 2. Bounds idle database access.
+    poll_interval_secs: 2
+    # Maximum items processed per iteration; 1-100, default 20. Bounds transaction batches.
+    batch_size: 20
+    # Connection and delivery lease, seconds; 30-300, default 60. Stop new external operations after lease loss.
+    lease_secs: 60
+    # Deployment-wide undeleted channel limit, including disabled channels; 1-256, default 32. Does not limit employee bindings.
+    max_connections: 32
+    # Per-connection backlog threshold; 1-100000, default 1000. Reject new messages when inbound or outbound backlog reaches the limit.
+    max_inbox_pending: 1000
+    # Maximum characters per inbound text message; 1-64000, default 16000. Reject oversized input.
+    message_max_chars: 16000
+  # Product schedules; execution uses normal authorization, admission, and the Worker queue.
+  schedules:
+    # Allow schedule creation, activation, and automatic triggering; default true. False still allows reading, pausing, and deletion.
+    enabled: true
+    # Due-schedule polling interval, seconds; 0.1-60, default 5. No browser or Worker timers.
+    poll_interval_secs: 5
+    # Schedules processed per iteration; 1-100, default 20. Each uses a separate short transaction.
+    batch_size: 20
+    # Allowed trigger lateness, seconds; 1-3600, default 300. Mark late occurrences missed; never replay historical tool actions.
+    misfire_grace_secs: 300
+  # Document knowledge policy; separate from ReMe and disabled by default. Connections and secrets come from environment variables.
+  knowledge:
+    # Enable document knowledge; default false. Configure Qdrant/RustFS and embedding credentials before enabling.
+    enabled: true
+    # Knowledge-specific embedding; schema default null, required when enabled. No ReMe fallback.
+    embedding:
+      # Adapter type: openai or dashscope; choose according to the provider protocol.
+      type: openai
+      # Model for new knowledge bases; separate from ReMe. Existing indexes retain their model.
+      model: BAAI/bge-m3
+      # Vector dimensions; positive integer matching the provider output.
+      dimensions: 1024
+      # Request dimensions policy: auto/send/omit, default auto. Uses verified provider/model capabilities.
+      # Unknown combinations require explicit send/omit. No automatic retry on HTTP 400; new indexes freeze the resolved policy and dimensions.
+      dimensions_mode: auto
+      # Environment variable containing the gateway URL; unset uses the provider SDK default.
+      base_url_env: KNOWLEDGE_EMBEDDING_MODEL_BASE_URL
+      # Required environment variable reference for the API key; never store the secret in YAML.
+      api_key_env: KNOWLEDGE_EMBEDDING_MODEL_API_KEY
+    # Approximate tokens per chunk; 32-8192, default 512. Fixed when the knowledge base is created.
+    chunk_size: 1024
+    # Overlapping tokens between chunks; default 64, must be less than chunk_size. Fixed at creation.
+    chunk_overlap: 64
+    # Maximum upload bytes per document; default 20 MiB, maximum 100 MiB. Validated by both Product and Runtime.
+    max_upload_bytes: 20971520
+    # Retrieval timeout, seconds; greater than 0 and at most 120, default 30. Failures must not appear as empty results.
+    search_timeout_secs: 30
+  # Usage cost estimates; reporting only. Does not enforce budgets or change model execution permissions.
+  usage:
+    # Price currency: CNY/USD/EUR, default CNY. Historical costs are grouped by currency.
+    currency: CNY
+    # Optional prices keyed by models.profiles names; default empty. Token usage is recorded without prices.
+    # Prices are per 1K = 1000 tokens. Both input and output prices must be finite, nonnegative amounts.
+    prices: {}
+    # Example: uncomment and use an existing model profile. Illustrative prices, not provider quotes.
+    # prices:
+    #   chat-default:  # An existing model profile name; unknown names are rejected.
+    #     input_per_k: 0.001  # Nonnegative price per 1K input tokens, including cached input in the estimate.
+    #     output_per_k: 0.002  # Nonnegative price per 1K output tokens; 0 explicitly means free.
+  # Non-sensitive capacity limits; positive integers. Apply backpressure or reject new Tasks without dropping critical events.
+  performance:
+    # Per-process projection queue capacity, events; default 1024. Backpressure upstream reads when full.
+    event_queue_capacity: 1024
+    # Global active Task admission limit; default 64. Includes queued/running/submitted resumes/cancelling, excludes approval-only waits; excess returns 429.
+    task_max_outstanding: 64
+    # Per-user active Task admission limit; default 8. Grants no additional execution permissions.
+    task_max_outstanding_per_user: 8
+    # Global pending-approval admission threshold; default 256. Reject new Tasks at the limit; in-flight Tasks can still pause safely.
+    task_max_pending_approval: 256
+    # Per-user pending-approval threshold; default 32. Does not block approval resume or Stop.
+    task_max_pending_approval_per_user: 32
+    # Approval lifetime, seconds; positive integer, default 86400 (24 hours), measured from first publication. Expiry submits Stop.
+    approval_timeout_secs: 86400
+  auth:
+    # JWT signing algorithm. Symmetric signing is used; HS256 is recommended.
+    algorithm: HS256
+    # Login token lifetime, hours. 168 hours equals 7 days.
+    expire_hours: 168
+    # Self-registration: bootstrap_only (default; only the first user in an empty database
+    # can register and become root administrator), closed (administrators create all users),
+    # or open (anyone can register as a member of the root Organization).
+    # Non-sensitive policy; REGISTRATION_MODE provides an emergency environment override.
+    registration_mode: bootstrap_only
+
+  runtime:
+    # Gateway timeout for ordinary AgentScope HTTP requests, seconds.
+    # Does not apply to streaming SSE connections.
+    request_timeout_secs: 30
+    # Maximum Runtime session-lock grace period, seconds; used to identify stale Tasks during startup reconciliation.
+    session_lock_ttl_secs: 600
+
+  builtin_skills:
+    # Builtin Skill IDs granted organization-wide use on first registration, including future departments; the 18 defaults are listed below.
+    # Empty disables automatic grants. Builtin IDs only; no management rights or changes to existing grants, revocations, or disabled entries.
+    # Advanced override BUILTIN_SKILL_ORGANIZATION_USE_IDS accepts a JSON array; after restart it affects only newly registered entries.
+    organization_use_ids:
+      - academic-paper-review
+      - agent-bootstrap
+      - chart-visualization
+      - code-documentation
+      - consulting-analysis
+      - data-analysis
+      - deep-research
+      - find-skills
+      - frontend-design
+      - github-deep-research
+      - newsletter-generation
+      - ppt-generation
+      - skill-creator
+      - skill-reviewer
+      - surprise-me
+      - systematic-literature-review
+
+  workspace_assistant:
+    # Initialize a general workspace assistant for the root Organization; default true. Disabling prevents creation
+    # but does not delete an existing assistant. WORKSPACE_ASSISTANT_ENABLED provides an emergency override.
+    enabled: true
+
+  web:
+    # Attach Web Search/Fetch to Runtime Agents; default false. When disabled, provider addresses
+    # and secrets are not read. Other network paths such as Shell/MCP are unaffected.
+    enabled: true
+    # Tool declarations: name/group/use are common fields; remaining sibling fields are provider parameters.
+    tools:
+      # Fixed search tool name; unknown or duplicate names fail startup.
+      - name: web_search
+        # Permission group: web_access, subject to Agent DENY policy.
+        group: web_access
+        # Trusted provider factory; only implementations registered with Runtime are accepted.
+        use: workmate_runtime.web_providers:SearxngSearchProvider
+        # Environment variable for the SearXNG base URL; a value is required only when enabled=true.
+        base_url_env: WEB_SEARCH_BASE_URL
+        # Maximum results; 1-20, default 8.
+        max_results: 8
+      # Fixed fetch tool name; configured independently from the search provider.
+      - name: web_fetch
+        # Permission group: web_access. Changing providers does not change authorization.
+        group: web_access
+        # Trusted Crawl4AI provider factory.
+        use: workmate_runtime.web_providers:Crawl4AIFetchProvider
+        # Environment variable for the Crawl4AI service base URL, not the user-supplied fetch target.
+        base_url_env: WEB_FETCH_BASE_URL
+        # Service credential environment variable; required for local Crawl4AI. Secrets never enter YAML, prompts, or audit records.
+        token_env: WEB_FETCH_API_TOKEN
+        # Provider request timeout, seconds; greater than 0 and at most 120.
+        timeout_seconds: 30
+        # Body extraction mode: fit (relevant content) or raw (full Markdown).
+        extract_mode: fit
+    limits:
+      # Maximum provider response size, bytes; default 5 MiB.
+      max_response_bytes: 5242880
+      # Maximum body characters returned to the model; oversized output is explicitly marked truncated.
+      max_extracted_chars: 50000
+
+  artifacts:
+    # Artifact and Task attachment storage; multiple machines require s3. Local requires a shared POSIX volume.
+    storage:
+      # local: shared local volume (default); s3: separate private bucket, with no local fallback on failure.
+      backend: local
+      # S3 signing region; default us-east-1. Contains no credentials.
+      region: us-east-1
+      # S3 request timeout, seconds; (0, 300], default 30. Retries are bounded.
+      timeout_seconds: 30
+      # Save file checkpoints at safe terminal states or approval release; default false. Requires backend=s3.
+      workspace_checkpoint_enabled: false
+      # Maximum files per checkpoint; exceeding the limit makes the entire checkpoint unrecoverable, without silent truncation.
+      workspace_checkpoint_max_files: 1000
+      # Maximum bytes per file; default 16 MiB. Oversized files prevent checkpoint publication.
+      workspace_checkpoint_max_file_bytes: 16777216
+      # Maximum total checkpoint bytes; default 128 MiB, must be at least the per-file limit.
+      workspace_checkpoint_max_bytes: 134217728
+      # Externalize large tool display content; default false. Uses separate ARTIFACT_S3 credentials; does not change artifact storage or execution/approval snapshots.
+      tool_content_enabled: false
+      # Maximum inline bytes for full tool arguments/text results; 1024-131072, default 65536.
+      tool_content_inline_bytes: 65536
+      # External tool-content preview characters; 128-8192, default 2048. Full content requires authorized retrieval.
+      tool_content_preview_chars: 2048
+    # Maximum bytes projected per artifact. 52428800 = 50 MiB.
+    max_file_bytes: 52428800
+    # Maximum artifacts projected per run; excess candidates are logged and skipped.
+    max_files_per_run: 20
+    # Passive file extensions allowed for inline browser preview; does not restrict artifact downloads.
+    preview_extensions:
+      - pdf
+      - txt
+      - md
+      - csv
+      - json
+      - yaml
+      - yml
+      - png
+      - jpg
+      - jpeg
+      - webp
+      - gif
+    # Active or high-risk types that must be downloaded as attachments even when inline is requested.
+    # Interactive HTML uses an isolated frontend iframe; retain attachment-only restrictions for html/htm/xhtml.
+    force_download_extensions:
+      - html
+      - htm
+      - xhtml
+      - svg
+      - xml
+      - js
+      - mjs
+      - zip
+      - tar
+      - gz
+
+  models:
+    # Default chat model profile; must exactly match a key under profiles.
+    default: deepseek-v4-flash
+    # Reusable media capability presets; profiles reference names instead of repeating MIME details.
+    media_profiles:
+      # Text-only preset; Runtime extracts PDF text locally before sending it to the model.
+      text:
+        # Native model input types: text/image/audio/video. Must include text.
+        model_inputs: [text]
+        # PDF policy: extract_text (local extraction) or native (native file blocks).
+        pdf_strategy: extract_text
+      # Visual-document preset for models that accept images but not native PDF file blocks.
+      vision-documents:
+        # Send images natively; extract PDF text to avoid gateways rejecting type=file.
+        model_inputs: [text, image]
+        # The configured SiliconFlow Kimi interface accepts text/image_url, requiring PDF text extraction.
+        pdf_strategy: extract_text
+    profiles:
+      # Choose any profile name; select an added profile through default.
+      deepseek-v4-flash:
+        # Model adapter: openai (OpenAI-compatible API) or dashscope.
+        type: openai
+        # Model identifier sent to the provider.
+        model: deepseek-ai/DeepSeek-V4-Flash
+        # Inject the gateway URL through an environment variable; specify only its variable name here,
+        # never the URL itself. An unset variable uses the SDK default address.
+        base_url_env: CHAT_MODEL_BASE_URL
+        # Name of the environment variable containing the API key; never the actual secret.
+        api_key_env: CHAT_MODEL_API_KEY
+        # Reference a media preset above; missing or adapter-incompatible presets fail startup.
+        media_profile: text
+        # Declare support for thinking/reasoning output, including exposure of the thinking parameter
+        # in GET /model/. For conversation-level behavior, see the model capability guide:
+        # docs/en/models.md.
+        supports_thinking: false
+        # Context window, tokens; use the provider specification. Default 32768.
+        context_size: 1024000
+        # Maximum output per reply, tokens; use the provider specification. Default 8192.
+        max_output_tokens: 8192
+      kimi-2.6:
+        # Model adapter: openai (OpenAI-compatible API) or dashscope.
+        type: openai
+        # Model identifier sent to the provider.
+        model: Pro/moonshotai/Kimi-K2.6
+        # Inject the gateway URL through an environment variable; specify only its variable name here,
+        # never the URL itself. An unset variable uses the SDK default address.
+        base_url_env: CHAT_MODEL_BASE_URL
+        # Name of the environment variable containing the API key; never the actual secret.
+        api_key_env: CHAT_MODEL_API_KEY
+        # Kimi through the configured SiliconFlow OpenAI-compatible gateway accepts native text and images;
+        # PDF uses the extract_text preset and never sends upstream type=file blocks.
+        media_profile: vision-documents
+        # Declare support for thinking/reasoning output, including exposure of the thinking parameter
+        # in GET /model/. For conversation-level behavior, see the model capability guide:
+        # docs/en/models.md.
+        supports_thinking: true
+        # Context window, tokens; use the provider specification. Default 32768.
+        context_size: 256000
+        # Maximum output per reply, tokens; use the provider specification. Default 8192.
+        max_output_tokens: 8192
+    # Embedding dedicated to ReMe vector memory; knowledge uses product.knowledge.embedding.
+    embedding:
+      # Embedding adapter: openai or dashscope.
+      type: openai
+      # Embedding model identifier for ReMe vector memory.
+      model: BAAI/bge-m3
+      # Vector dimensions; must match the provider model output.
+      dimensions: 1024
+      # Environment variable containing the gateway URL; specify only the variable name.
+      base_url_env: EMBEDDING_MODEL_BASE_URL
+      # Environment variable containing the embedding API key.
+      api_key_env: EMBEDDING_MODEL_API_KEY
+
+workmate_runtime:
+  # Idle compute reclamation for bubblewrap/docker/kubernetes only. Preserves work files and active or waiting Tasks.
+  workspace_lifecycle:
+    # Idle keep-warm duration, seconds; 0-86400, default 600. Zero reclaims at the next scan.
+    warm_ttl_seconds: 600
+    # Per-process scan interval, seconds; 1-3600, default 60. Failed closure retains ownership and blocks reuse.
+    sweep_interval_seconds: 60
+    # Idle instance limit per Worker; 0-1024, default 16. Does not limit active Tasks.
+    # At 0, Bubblewrap closes before terminal publication and releases the file lock. Workers support same-node replica keep-warm coordination.
+    max_warm_per_worker: 16
+  # Worker execution backend; fixed at startup. No fallback on failure or hot switching of existing Workspaces.
+  sandbox:
+    # Backend: bubblewrap (default)/local/docker/kubernetes/e2b/daytona/opensandbox. Configure only the selected provider's fields.
+    # local explicitly executes on the host without isolation or Full Access; never an automatic fallback.
+    provider: bubblewrap
+    # Uncomment fields for the selected provider only; others fail validation. Keep credentials and connections in environment variables.
+    # Docker base image; default python:3.11-slim. Requires python3 and root/passwordless sudo for control operations.
+    # base_image: python:3.11-slim
+    # Optional Docker Node.js major version; no additional installation by default.
+    # node_version: null
+    # Additional Python packages installed during Docker build; default empty. Trusted packages only.
+    # extra_pip: []
+    # Kubernetes/OpenSandbox base image; default python:3.11-slim. Requires the same control-process capabilities.
+    # image: python:3.11-slim
+    # Kubernetes Pod/PVC namespace; default agentscope. Requires corresponding cluster permissions.
+    # namespace: agentscope
+    # Kubernetes StorageClass; empty uses the cluster default.
+    # storage_class: null
+    # Kubernetes PVC capacity; default 1Gi, in Kubernetes quantity units.
+    # storage_size: 1Gi
+    # E2B template; default base. Must include python3 and root/passwordless sudo.
+    # template: base
+    # Daytona target region; empty uses the SDK default.
+    # target: ""
+    # E2B/Daytona/OpenSandbox creation/keepalive timeout, seconds; 1-86400, default 300.
+    # timeout_seconds: 300
+    # OpenSandbox protocol: http/https, default http. Use https on untrusted networks.
+    # protocol: http
+  # Durable execution policy for the native Worker role.
+  worker:
+    # Concurrent Core execution slots per process; 1-1024, default 4. Paused approvals do not occupy slots.
+    capacity: 4
+    # Execution ownership lease, seconds; 3-300, default 30. Expiry does not authorize takeover or replay of external actions.
+    lease_seconds: 30
+    # Shutdown wait for executing Tasks, seconds; 0-3600, default 30. Then cancel and join.
+    drain_seconds: 30
+    # Startup dependency and sandbox probe deadline, seconds; 1-600, default 60. Do not accept new commands after timeout.
+    startup_timeout_seconds: 60
+  # Internal service secret: WORKMATE_INTERNAL_TOKEN (RUNTIME_INTERNAL_TOKEN on gateway).
+  # Inject through environment variables only, never YAML. If empty, Runtime internal
+  # endpoints return 403 and gateway rejects capability convergence before starting
+  # any conversation, including those with no capabilities. Production requires matching values on both sides.
+  # See the deployment variable inventory in docs/en/configuration-reference.md.
+
+  memory:
+    # Enable ReMe long-term memory; disabling prevents memory middleware creation.
+    enabled: true
+    # Maximum cached user/agent ReMe instances per Runtime process; evicted using LRU.
+    max_instances: 256
+    # Vector initialization failure policy: bm25 falls back; disabled is reserved and currently also falls back to BM25.
+    fallback: bm25
+
+  skills:
+    # Immutable Skill package object-storage policy shared by API and Worker; no addresses or secrets.
+    storage:
+      # S3 request timeout, seconds; (0, 300], default 30. Timeout fails without falling back to database package bytes.
+      timeout_seconds: 30
+      # S3 signing region; nonempty, default us-east-1, also used by RustFS. No credentials.
+      region: us-east-1
+    # Skill discovery policy: explicit synchronizes Agent bindings. Only explicit is supported.
+    discovery_mode: explicit
+    skillhub_cn:
+      # Enable the third-party SkillHub.cn public catalog; default false. No catalog connection when disabled.
+      enabled: false
+      # SkillHub.cn public API base URL, not the website homepage.
+      base_url: https://api.skillhub.cn
+      # Catalog request timeout for SkillHub.cn, seconds; applies to the component serving catalog requests.
+      request_timeout_secs: 30
+      # Maximum retries for HTTP 429 or transient 5xx responses; 0-10.
+      max_retries: 2
+
+  mcps:
+    github:
+      # Enable the third-party GitHub MCP public catalog; default false. No repository connection when disabled.
+      enabled: false
+
+  artifacts:
+    # snapshot_fallback: output snapshots only; hybrid: prefer explicit present_files declarations, with snapshot fallback.
+    delivery_mode: hybrid
+    # If true, project no artifacts without present_files. Neither value causes a run to fail.
+    strict_delivery: false
+
+
+# Durable command delivery policy; Redis connections and deployment namespace come from deployment variables, not this section.
+command_queue:
+  # Command outbox scan/business outbox idle interval, seconds; positive, default 0.2. Publishes messages only; never executes tools.
+  poll_interval_seconds: 0.2
+  # Command/business outbox batch limit; 1-1000, default 64. Bounds short transactions and Redis prefetch.
+  batch_size: 64
+  # Command/business outbox publisher lease, seconds; 3-300, default 30. Expiry permits message redelivery only.
+  lease_seconds: 30
+  # Lost-publication/stale-route repair and disconnected-execution isolation reporting interval, seconds; default 30. Never takes over or replays tools.
+  repair_interval_seconds: 30
+  # Minimum repair age for published but unclaimed messages, seconds; default 120. Avoids duplicate queue flooding.
+  redelivery_after_seconds: 120
+  # Maximum command publication failures; default 20. Exceeding the limit durably quarantines delivery; does not govern business notification network retries.
+  max_attempts: 20
+  # Command/business outbox exponential backoff cap, seconds; default 60. Jittered; delivery failures only.
+  retry_max_seconds: 60
+  # Minimum idle age for PEL candidate inspection, seconds; default 30. Not evidence of execution failure.
+  pending_idle_seconds: 30
+  # Minimum retention for acknowledged messages, seconds; default 86400. Never trims unread or PEL messages.
+  retention_seconds: 86400
+
+# Realtime log, writer, and Gateway reader budgets; do not change PostgreSQL execution authority or audit persistence.
+realtime:
+  # Replay retention, seconds; integer 60-86400, default 3600. Expired windows require explicit reset, never silent body loss.
+  retention_seconds: 3600
+  # Per-session log payload bytes; integer 266240-134217728, default 8388608. Minimum fits 256 KiB body plus 4 KiB metadata; not total Redis memory.
+  max_log_bytes: 8388608
+  # Idle log-key expiry, seconds; integer 60-172800, default 7200, at least retention_seconds. Expiry requires a new-generation reset.
+  ttl_seconds: 7200
+  # Body snapshot flush interval, seconds; finite 0.1-60, default 5. Failures must not silently skip recovery checkpoints.
+  snapshot_interval_seconds: 5.0
+  # Accumulated changed bytes triggering a body snapshot; integer 1024-8388608, default 65536. Not a final body-size limit.
+  snapshot_max_bytes: 65536
+  # Pending event buffer bytes per writer; integer 266240-67108864, default 2097152. Must fit one envelope; handle saturation explicitly.
+  max_buffer_bytes: 2097152
+  # Pending events per writer; integer 16-8192, default 256. Combines with the byte limit to prevent unbounded queues.
+  max_buffer_events: 256
+  # Writer I/O timeout, seconds; finite 0.1-30, default 2. Timeout enters bounded recovery, never indefinite blocking.
+  operation_timeout_seconds: 2.0
+  # Realtime delivery recovery grace, seconds; finite 1-300, default 30, at least operation_timeout_seconds. Interrupt in a controlled manner when exceeded.
+  outage_grace_seconds: 30.0
+  # Events per Gateway reader page; integer 1-1000, default 100. Bounds reads without skipping undelivered events.
+  reader_page_events: 100
+  # Events per client send buffer; integer 16-8192, default 256. Slow clients require controlled reset, never unbounded queues.
+  client_buffer_events: 256
+  # Bytes per client send buffer; integer 266240-67108864, default 2097152. Must fit one envelope; not total Gateway memory.
+  client_buffer_bytes: 2097152
+  # Gateway reader blocking wait, milliseconds; integer 1-60000, default 1000. Zero/infinite wait is forbidden; does not change Task execution timeout.
+  reader_block_ms: 1000
+  # Total message/Task/audit/artifact rows per reset; integer 1-100000, default 10000. Exceeding the limit fails explicitly, never truncates silently.
+  reset_max_rows: 10000
+  # UTF-8 read/output bytes per reset; integer 266240-67108864, default 8388608. Prechecked before database loading; not total history storage.
+  reset_max_bytes: 8388608
+  # Maximum interval between authoritative SSE authorization/generation checks, seconds; finite 0.1-60, default 15. Continuous output cannot delay disable/delete checks.
+  authorize_interval_seconds: 15.0
+  # Idle SSE heartbeat interval, seconds; finite 0.1-30, default 15. Sends comment frames without cancelling pending event reads.
+  heartbeat_interval_seconds: 15.0
+  # Reset retry interval when the current body prefix cannot be proven, seconds; finite 0.1-30, default 2. Refreshes display only, never reruns models or tools.
+  reset_retry_seconds: 2.0
+  # Shared session readers per Gateway; integer 1-16384, default 1024. Reject new session subscriptions at capacity without increasing Redis connections.
+  max_gateway_readers: 1024
+  # Open and handshaking SSE subscriptions per Gateway; integer 1-65536, default 4096. Reject excess explicitly; not a global or per-user quota.
+  max_gateway_subscriptions: 4096

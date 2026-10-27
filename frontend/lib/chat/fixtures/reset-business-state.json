@@ -1,0 +1,124 @@
+{
+  "tasks": [
+    {
+      "id": "t",
+      "conversation_id": "c",
+      "title": "验收",
+      "status": "awaiting_permission",
+      "execution_phase": null,
+      "run_id": "r",
+      "approval_profile": "standard",
+      "error": null,
+      "duration_ms": null,
+      "steps": 1,
+      "model_name": "test",
+      "token_usage": {
+        "input_tokens": 2,
+        "output_tokens": 3
+      },
+      "created_at": "2026-10-01T01:00:00Z",
+      "updated_at": "2026-10-01T01:00:00Z"
+    }
+  ],
+  "messages": [
+    {
+      "id": "user",
+      "task_id": "t",
+      "role": "user",
+      "content": {
+        "text": "查找资料"
+      },
+      "created_at": "2026-10-01T01:00:00Z"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "artifact",
+      "task_id": "t",
+      "conversation_id": "c",
+      "name": "report.md",
+      "mime_type": "text/markdown",
+      "size": 10,
+      "version": 1,
+      "change_type": "created",
+      "metadata": {},
+      "created_at": "2026-10-01T01:00:00Z"
+    }
+  ],
+  "activity": [
+    {
+      "id": 1,
+      "task_id": "t",
+      "seq": 1,
+      "event_type": "tool_call",
+      "payload": {
+        "toolCallId": "call",
+        "tool": "search_knowledge"
+      },
+      "created_at": "2026-10-01T01:00:00Z"
+    },
+    {
+      "id": 2,
+      "task_id": "t",
+      "seq": 2,
+      "event_type": "tool_result",
+      "payload": {
+        "toolCallId": "call",
+        "tool": "search_knowledge",
+        "status": "success"
+      },
+      "created_at": "2026-10-01T01:00:00Z"
+    }
+  ],
+  "knowledge": [
+    {
+      "id": 3,
+      "task_id": "t",
+      "seq": 3,
+      "event_type": "knowledge_retrieval",
+      "payload": {
+        "toolCallId": "call",
+        "status": "success",
+        "tool": "search_knowledge",
+        "phase": "retrieval",
+        "source_count": 1
+      },
+      "created_at": "2026-10-01T01:00:00Z"
+    },
+    {
+      "id": 4,
+      "task_id": "t",
+      "seq": 4,
+      "event_type": "knowledge_sources",
+      "payload": {
+        "sources": [
+          {
+            "source_id": "source",
+            "knowledge_base_id": "kb",
+            "document_id": "doc",
+            "filename": "报告.md",
+            "chunk_index": 0,
+            "metadata": {}
+          }
+        ],
+        "details_available": true
+      },
+      "created_at": "2026-10-01T01:00:00Z"
+    }
+  ],
+  "pending_confirm": {
+    "toolCalls": [
+      {
+        "id": "approve",
+        "name": "write",
+        "input": "{}"
+      }
+    ],
+    "decisionVersion": "decision",
+    "taskId": "t",
+    "approvalProfile": "standard",
+    "permissionMode": "accept_edits"
+  },
+  "decided_confirm_tools": {},
+  "closed_confirm_versions": []
+}

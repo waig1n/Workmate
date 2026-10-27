@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="850" viewBox="0 0 1200 850" role="img" aria-labelledby="title desc">
+<title id="title">RBAC + Scope：让共享始终有边界</title><desc id="desc">Role permissions and Scope boundaries govern management, caller use, resource binding and external identity independently.</desc>
+<defs><pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#e6e7e2"/></pattern>
+<marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#778694" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect width="1200" height="850" rx="24" fill="#fafbf8"/><rect x="1" y="1" width="1198" height="848" rx="23" fill="url(#dots)" stroke="#e1e6e2"/>
+<g font-family="Inter, Noto Sans CJK SC, Segoe UI, Arial, sans-serif">
+<rect x="48" y="36" width="32" height="32" rx="8" fill="#191815"/>
+<path d="m55 45 4 14h4l2-8 2 8h4l4-14h-4l-2 9-2-9h-4l-2 9-2-9z" fill="#fffefa"/>
+<text x="92" y="59" font-size="18" font-weight="700" fill="#242c36" text-anchor="start">WORKMATE</text>
+<text x="1152" y="58" font-size="14" font-weight="500" fill="#647180" text-anchor="end">02 / 权限治理</text>
+<text x="64" y="115" font-size="32" font-weight="700" fill="#242c36" text-anchor="start">RBAC + Scope：让共享始终有边界</text>
+<text x="64" y="148" font-size="18" font-weight="400" fill="#647180" text-anchor="start">明确谁能做什么、在哪个范围内生效，再装配实际执行能力。</text>
+<rect x="64" y="183" width="336" height="126" rx="16" fill="#ffffff" stroke="#dce3df"/>
+<rect x="84" y="205" width="5" height="22" rx="2" fill="#087f70"/>
+<text x="102" y="223" font-size="22" font-weight="650" fill="#242c36" text-anchor="start">调用者身份</text>
+<text x="86" y="253" font-size="17" font-weight="400" fill="#647180" text-anchor="start">平台用户 · 账号状态</text>
+<text x="86" y="278" font-size="17" font-weight="400" fill="#647180" text-anchor="start">IM 入口需绑定平台身份</text>
+<rect x="432" y="183" width="336" height="126" rx="16" fill="#ffffff" stroke="#dce3df"/>
+<rect x="452" y="205" width="5" height="22" rx="2" fill="#087f70"/>
+<text x="470" y="223" font-size="22" font-weight="650" fill="#242c36" text-anchor="start">RBAC 角色与权限</text>
+<text x="454" y="253" font-size="17" font-weight="400" fill="#647180" text-anchor="start">操作权限 · 角色委派</text>
+<text x="454" y="278" font-size="17" font-weight="400" fill="#647180" text-anchor="start">权限绑定作用于指定 Scope</text>
+<rect x="800" y="183" width="336" height="126" rx="16" fill="#ffffff" stroke="#dce3df"/>
+<rect x="820" y="205" width="5" height="22" rx="2" fill="#087f70"/>
+<text x="838" y="223" font-size="22" font-weight="650" fill="#242c36" text-anchor="start">Scope 资源范围</text>
+<text x="822" y="253" font-size="17" font-weight="400" fill="#647180" text-anchor="start">Organization / Department</text>
+<text x="822" y="278" font-size="17" font-weight="400" fill="#647180" text-anchor="start">Personal · 显式资源授权</text>
+<path d="M 232 309 V 352" fill="none" stroke="#778694" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M 600 309 V 352" fill="none" stroke="#778694" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M 968 309 V 352" fill="none" stroke="#778694" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="64" y="352" width="1072" height="250" rx="20" fill="#f0f8f4" stroke="#b9d7cd"/>
+<text x="88" y="391" font-size="25" font-weight="700" fill="#242c36" text-anchor="start">产品授权层</text>
+<text x="88" y="421" font-size="17" font-weight="400" fill="#647180" text-anchor="start">按操作分别校验，任何一种权限都不能替代其他检查。</text>
+<rect x="88" y="443" width="496" height="64" rx="10" fill="#ffffff"/>
+<text x="104" y="467" font-size="19" font-weight="650" fill="#087f70" text-anchor="start">管理权</text>
+<text x="104" y="491" font-size="16" font-weight="400" fill="#647180" text-anchor="start">谁可以配置、发布和授权？</text>
+<rect x="616" y="443" width="496" height="64" rx="10" fill="#ffffff"/>
+<text x="632" y="467" font-size="19" font-weight="650" fill="#087f70" text-anchor="start">本人使用权</text>
+<text x="632" y="491" font-size="16" font-weight="400" fill="#647180" text-anchor="start">调用者能否使用此 Agent / 资源？</text>
+<rect x="88" y="519" width="496" height="64" rx="10" fill="#ffffff"/>
+<text x="104" y="543" font-size="19" font-weight="650" fill="#087f70" text-anchor="start">目标 Scope 绑定权</text>
+<text x="104" y="567" font-size="16" font-weight="400" fill="#647180" text-anchor="start">资源能否绑定到目标 Agent？</text>
+<rect x="616" y="519" width="496" height="64" rx="10" fill="#ffffff"/>
+<text x="632" y="543" font-size="19" font-weight="650" fill="#087f70" text-anchor="start">外部服务身份</text>
+<text x="632" y="567" font-size="16" font-weight="400" fill="#647180" text-anchor="start">服务凭据不等于平台管理身份</text>
+<path d="M 316 602 V 650" fill="none" stroke="#778694" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="64" y="650" width="504" height="112" rx="16" fill="#ffffff" stroke="#dce3df"/>
+<rect x="84" y="672" width="5" height="22" rx="2" fill="#087f70"/>
+<text x="102" y="690" font-size="22" font-weight="650" fill="#242c36" text-anchor="start">授权通过：装配能力</text>
+<text x="86" y="720" font-size="17" font-weight="400" fill="#647180" text-anchor="start">Agent · Skills · MCP · Knowledge</text>
+<text x="86" y="745" font-size="17" font-weight="400" fill="#647180" text-anchor="start">仅装配已授权且可用的资源</text>
+<path d="M 568 706 H 632" fill="none" stroke="#778694" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="632" y="650" width="504" height="112" rx="16" fill="#ffffff" stroke="#dce3df"/>
+<rect x="652" y="672" width="5" height="22" rx="2" fill="#4268be"/>
+<text x="670" y="690" font-size="22" font-weight="650" fill="#242c36" text-anchor="start">执行与交付仍受约束</text>
+<text x="654" y="720" font-size="17" font-weight="400" fill="#647180" text-anchor="start">工具策略 · 审批 · 成果访问</text>
+<text x="654" y="745" font-size="17" font-weight="400" fill="#647180" text-anchor="start">审批续跑重新校验当前权限</text>
+<text x="64" y="802" font-size="17" font-weight="500" fill="#a96b19" text-anchor="start">未获授权 → 拒绝操作；组织成员身份不自动授予资源使用权。</text>
+<text x="64" y="830" font-size="16" font-weight="400" fill="#647180" text-anchor="start">共享凭据不转移平台身份；管理员权限不自动开放个人会话。</text>
+</g></svg>

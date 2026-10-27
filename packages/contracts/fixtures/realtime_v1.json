@@ -1,0 +1,1822 @@
+{
+  "cursors": [
+    {
+      "value": {
+        "schema_version": 1,
+        "conversation_id": "c",
+        "generation": "00000000-0000-4000-8000-000000000001",
+        "stream_id": "10-2"
+      },
+      "token": "rt1.eyJjb252ZXJzYXRpb25faWQiOiJjIiwiZ2VuZXJhdGlvbiI6IjAwMDAwMDAwLTAwMDAtNDAwMC04MDAwLTAwMDAwMDAwMDAwMSIsInNjaGVtYV92ZXJzaW9uIjoxLCJzdHJlYW1faWQiOiIxMC0yIn0"
+    },
+    {
+      "value": {
+        "schema_version": 1,
+        "conversation_id": "对话😀",
+        "generation": "00000000-0000-4000-8000-000000000001",
+        "stream_id": "9007199254740991-0"
+      },
+      "token": "rt1.eyJjb252ZXJzYXRpb25faWQiOiLlr7nor53wn5iAIiwiZ2VuZXJhdGlvbiI6IjAwMDAwMDAwLTAwMDAtNDAwMC04MDAwLTAwMDAwMDAwMDAwMSIsInNjaGVtYV92ZXJzaW9uIjoxLCJzdHJlYW1faWQiOiI5MDA3MTk5MjU0NzQwOTkxLTAifQ"
+    },
+    {
+      "value": {
+        "schema_version": 1,
+        "conversation_id": "c",
+        "generation": "00000000-0000-4000-8000-000000000001",
+        "stream_id": "18446744073709551615-18446744073709551615"
+      },
+      "token": "rt1.eyJjb252ZXJzYXRpb25faWQiOiJjIiwiZ2VuZXJhdGlvbiI6IjAwMDAwMDAwLTAwMDAtNDAwMC04MDAwLTAwMDAwMDAwMDAwMSIsInNjaGVtYV92ZXJzaW9uIjoxLCJzdHJlYW1faWQiOiIxODQ0Njc0NDA3MzcwOTU1MTYxNS0xODQ0Njc0NDA3MzcwOTU1MTYxNSJ9"
+    }
+  ],
+  "message_ids": [
+    {
+      "task_id": "t",
+      "reply_id": "r",
+      "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4"
+    },
+    {
+      "task_id": "任务😀",
+      "reply_id": "回复",
+      "message_id": "54f3aa84-6682-57a2-8b35-93b2a49e1f8d"
+    },
+    {
+      "task_id": "a:b",
+      "reply_id": "c",
+      "message_id": "b54f204b-a7ee-5291-aff3-13ad88ba9347"
+    },
+    {
+      "task_id": "a",
+      "reply_id": "b:c",
+      "message_id": "7d684211-05a7-5e2d-9c83-6b8f3865f261"
+    }
+  ],
+  "deltas": [
+    {
+      "name": "utf8_chinese",
+      "state": {
+        "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+        "block_id": "b",
+        "content": "",
+        "content_version": 0,
+        "end_utf8": 0,
+        "closed": false,
+        "execution_epoch": 1
+      },
+      "envelope": {
+        "schema_version": 1,
+        "event_id": "event-1",
+        "conversation_id": "c",
+        "task_id": "t",
+        "reply_id": "r",
+        "source": "worker",
+        "execution_epoch": 1,
+        "business_seq": null,
+        "payload": {
+          "type": "TEXT_MESSAGE_CONTENT",
+          "delta": "你"
+        },
+        "text": {
+          "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+          "block_id": "b",
+          "content_version": 1,
+          "from_offset": 0,
+          "to_offset": 3
+        }
+      },
+      "expected": {
+        "action": "apply",
+        "state": {
+          "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+          "block_id": "b",
+          "content": "你",
+          "content_version": 1,
+          "end_utf8": 3,
+          "closed": false,
+          "execution_epoch": 1
+        },
+        "reason": null
+      }
+    },
+    {
+      "name": "astral_emoji",
+      "state": {
+        "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+        "block_id": "b",
+        "content": "你",
+        "content_version": 1,
+        "end_utf8": 3,
+        "closed": false,
+        "execution_epoch": 1
+      },
+      "envelope": {
+        "schema_version": 1,
+        "event_id": "event-1",
+        "conversation_id": "c",
+        "task_id": "t",
+        "reply_id": "r",
+        "source": "worker",
+        "execution_epoch": 1,
+        "business_seq": null,
+        "payload": {
+          "type": "TEXT_MESSAGE_CONTENT",
+          "delta": "😀"
+        },
+        "text": {
+          "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+          "block_id": "b",
+          "content_version": 2,
+          "from_offset": 3,
+          "to_offset": 7
+        }
+      },
+      "expected": {
+        "action": "apply",
+        "state": {
+          "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+          "block_id": "b",
+          "content": "你😀",
+          "content_version": 2,
+          "end_utf8": 7,
+          "closed": false,
+          "execution_epoch": 1
+        },
+        "reason": null
+      }
+    },
+    {
+      "name": "duplicate",
+      "state": {
+        "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+        "block_id": "b",
+        "content": "你",
+        "content_version": 1,
+        "end_utf8": 3,
+        "closed": false,
+        "execution_epoch": 1
+      },
+      "envelope": {
+        "schema_version": 1,
+        "event_id": "event-1",
+        "conversation_id": "c",
+        "task_id": "t",
+        "reply_id": "r",
+        "source": "worker",
+        "execution_epoch": 1,
+        "business_seq": null,
+        "payload": {
+          "type": "TEXT_MESSAGE_CONTENT",
+          "delta": "你"
+        },
+        "text": {
+          "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+          "block_id": "b",
+          "content_version": 1,
+          "from_offset": 0,
+          "to_offset": 3
+        }
+      },
+      "expected": {
+        "action": "ignore",
+        "state": {
+          "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+          "block_id": "b",
+          "content": "你",
+          "content_version": 1,
+          "end_utf8": 3,
+          "closed": false,
+          "execution_epoch": 1
+        },
+        "reason": "duplicate"
+      }
+    },
+    {
+      "name": "overlap_append",
+      "state": {
+        "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+        "block_id": "b",
+        "content": "你好",
+        "content_version": 1,
+        "end_utf8": 6,
+        "closed": false,
+        "execution_epoch": 1
+      },
+      "envelope": {
+        "schema_version": 1,
+        "event_id": "event-1",
+        "conversation_id": "c",
+        "task_id": "t",
+        "reply_id": "r",
+        "source": "worker",
+        "execution_epoch": 1,
+        "business_seq": null,
+        "payload": {
+          "type": "TEXT_MESSAGE_CONTENT",
+          "delta": "好😀"
+        },
+        "text": {
+          "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+          "block_id": "b",
+          "content_version": 2,
+          "from_offset": 3,
+          "to_offset": 10
+        }
+      },
+      "expected": {
+        "action": "apply",
+        "state": {
+          "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+          "block_id": "b",
+          "content": "你好😀",
+          "content_version": 2,
+          "end_utf8": 10,
+          "closed": false,
+          "execution_epoch": 1
+        },
+        "reason": null
+      }
+    },
+    {
+      "name": "overlap_conflict",
+      "state": {
+        "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+        "block_id": "b",
+        "content": "你好",
+        "content_version": 1,
+        "end_utf8": 6,
+        "closed": false,
+        "execution_epoch": 1
+      },
+      "envelope": {
+        "schema_version": 1,
+        "event_id": "event-1",
+        "conversation_id": "c",
+        "task_id": "t",
+        "reply_id": "r",
+        "source": "worker",
+        "execution_epoch": 1,
+        "business_seq": null,
+        "payload": {
+          "type": "TEXT_MESSAGE_CONTENT",
+          "delta": "坏😀"
+        },
+        "text": {
+          "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+          "block_id": "b",
+          "content_version": 2,
+          "from_offset": 3,
+          "to_offset": 10
+        }
+      },
+      "expected": {
+        "action": "reset",
+        "state": {
+          "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+          "block_id": "b",
+          "content": "你好",
+          "content_version": 1,
+          "end_utf8": 6,
+          "closed": false,
+          "execution_epoch": 1
+        },
+        "reason": "content_conflict"
+      }
+    },
+    {
+      "name": "version_gap",
+      "state": {
+        "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+        "block_id": "b",
+        "content": "你",
+        "content_version": 1,
+        "end_utf8": 3,
+        "closed": false,
+        "execution_epoch": 1
+      },
+      "envelope": {
+        "schema_version": 1,
+        "event_id": "event-1",
+        "conversation_id": "c",
+        "task_id": "t",
+        "reply_id": "r",
+        "source": "worker",
+        "execution_epoch": 1,
+        "business_seq": null,
+        "payload": {
+          "type": "TEXT_MESSAGE_CONTENT",
+          "delta": "好"
+        },
+        "text": {
+          "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+          "block_id": "b",
+          "content_version": 3,
+          "from_offset": 3,
+          "to_offset": 6
+        }
+      },
+      "expected": {
+        "action": "reset",
+        "state": {
+          "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+          "block_id": "b",
+          "content": "你",
+          "content_version": 1,
+          "end_utf8": 3,
+          "closed": false,
+          "execution_epoch": 1
+        },
+        "reason": "version_gap"
+      }
+    },
+    {
+      "name": "offset_gap",
+      "state": {
+        "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+        "block_id": "b",
+        "content": "你",
+        "content_version": 1,
+        "end_utf8": 3,
+        "closed": false,
+        "execution_epoch": 1
+      },
+      "envelope": {
+        "schema_version": 1,
+        "event_id": "event-1",
+        "conversation_id": "c",
+        "task_id": "t",
+        "reply_id": "r",
+        "source": "worker",
+        "execution_epoch": 1,
+        "business_seq": null,
+        "payload": {
+          "type": "TEXT_MESSAGE_CONTENT",
+          "delta": "好"
+        },
+        "text": {
+          "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+          "block_id": "b",
+          "content_version": 2,
+          "from_offset": 6,
+          "to_offset": 9
+        }
+      },
+      "expected": {
+        "action": "reset",
+        "state": {
+          "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+          "block_id": "b",
+          "content": "你",
+          "content_version": 1,
+          "end_utf8": 3,
+          "closed": false,
+          "execution_epoch": 1
+        },
+        "reason": "offset_gap"
+      }
+    },
+    {
+      "name": "version_extension_conflict",
+      "state": {
+        "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+        "block_id": "b",
+        "content": "你",
+        "content_version": 1,
+        "end_utf8": 3,
+        "closed": false,
+        "execution_epoch": 1
+      },
+      "envelope": {
+        "schema_version": 1,
+        "event_id": "event-1",
+        "conversation_id": "c",
+        "task_id": "t",
+        "reply_id": "r",
+        "source": "worker",
+        "execution_epoch": 1,
+        "business_seq": null,
+        "payload": {
+          "type": "TEXT_MESSAGE_CONTENT",
+          "delta": "好"
+        },
+        "text": {
+          "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+          "block_id": "b",
+          "content_version": 1,
+          "from_offset": 3,
+          "to_offset": 6
+        }
+      },
+      "expected": {
+        "action": "reset",
+        "state": {
+          "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+          "block_id": "b",
+          "content": "你",
+          "content_version": 1,
+          "end_utf8": 3,
+          "closed": false,
+          "execution_epoch": 1
+        },
+        "reason": "version_conflict"
+      }
+    },
+    {
+      "name": "stale_version",
+      "state": {
+        "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+        "block_id": "b",
+        "content": "你好",
+        "content_version": 2,
+        "end_utf8": 6,
+        "closed": false,
+        "execution_epoch": 1
+      },
+      "envelope": {
+        "schema_version": 1,
+        "event_id": "event-1",
+        "conversation_id": "c",
+        "task_id": "t",
+        "reply_id": "r",
+        "source": "worker",
+        "execution_epoch": 1,
+        "business_seq": null,
+        "payload": {
+          "type": "TEXT_MESSAGE_CONTENT",
+          "delta": "你"
+        },
+        "text": {
+          "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+          "block_id": "b",
+          "content_version": 1,
+          "from_offset": 0,
+          "to_offset": 3
+        }
+      },
+      "expected": {
+        "action": "ignore",
+        "state": {
+          "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+          "block_id": "b",
+          "content": "你好",
+          "content_version": 2,
+          "end_utf8": 6,
+          "closed": false,
+          "execution_epoch": 1
+        },
+        "reason": "stale_version"
+      }
+    },
+    {
+      "name": "stale_epoch",
+      "state": {
+        "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+        "block_id": "b",
+        "content": "你",
+        "content_version": 1,
+        "end_utf8": 3,
+        "closed": false,
+        "execution_epoch": 2
+      },
+      "envelope": {
+        "schema_version": 1,
+        "event_id": "event-1",
+        "conversation_id": "c",
+        "task_id": "t",
+        "reply_id": "r",
+        "source": "worker",
+        "execution_epoch": 1,
+        "business_seq": null,
+        "payload": {
+          "type": "TEXT_MESSAGE_CONTENT",
+          "delta": "好"
+        },
+        "text": {
+          "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+          "block_id": "b",
+          "content_version": 2,
+          "from_offset": 3,
+          "to_offset": 6
+        }
+      },
+      "expected": {
+        "action": "ignore",
+        "state": {
+          "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+          "block_id": "b",
+          "content": "你",
+          "content_version": 1,
+          "end_utf8": 3,
+          "closed": false,
+          "execution_epoch": 2
+        },
+        "reason": "stale_epoch"
+      }
+    },
+    {
+      "name": "approval_resumed_epoch",
+      "state": {
+        "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+        "block_id": "b",
+        "content": "你",
+        "content_version": 1,
+        "end_utf8": 3,
+        "closed": false,
+        "execution_epoch": 1
+      },
+      "envelope": {
+        "schema_version": 1,
+        "event_id": "event-1",
+        "conversation_id": "c",
+        "task_id": "t",
+        "reply_id": "r",
+        "source": "worker",
+        "execution_epoch": 2,
+        "business_seq": null,
+        "payload": {
+          "type": "TEXT_MESSAGE_CONTENT",
+          "delta": "好"
+        },
+        "text": {
+          "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+          "block_id": "b",
+          "content_version": 2,
+          "from_offset": 3,
+          "to_offset": 6
+        }
+      },
+      "expected": {
+        "action": "apply",
+        "state": {
+          "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+          "block_id": "b",
+          "content": "你好",
+          "content_version": 2,
+          "end_utf8": 6,
+          "closed": false,
+          "execution_epoch": 2
+        },
+        "reason": null
+      }
+    },
+    {
+      "name": "terminal_snapshot",
+      "state": {
+        "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+        "block_id": "b",
+        "content": "你",
+        "content_version": 1,
+        "end_utf8": 3,
+        "closed": true,
+        "execution_epoch": 1
+      },
+      "envelope": {
+        "schema_version": 1,
+        "event_id": "event-1",
+        "conversation_id": "c",
+        "task_id": "t",
+        "reply_id": "r",
+        "source": "worker",
+        "execution_epoch": 1,
+        "business_seq": null,
+        "payload": {
+          "type": "TEXT_MESSAGE_CONTENT",
+          "delta": "好"
+        },
+        "text": {
+          "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+          "block_id": "b",
+          "content_version": 2,
+          "from_offset": 3,
+          "to_offset": 6
+        }
+      },
+      "expected": {
+        "action": "ignore",
+        "state": {
+          "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+          "block_id": "b",
+          "content": "你",
+          "content_version": 1,
+          "end_utf8": 3,
+          "closed": true,
+          "execution_epoch": 1
+        },
+        "reason": "closed"
+      }
+    },
+    {
+      "name": "wrong_block",
+      "state": {
+        "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+        "block_id": "b",
+        "content": "",
+        "content_version": 0,
+        "end_utf8": 0,
+        "closed": false,
+        "execution_epoch": 1
+      },
+      "envelope": {
+        "schema_version": 1,
+        "event_id": "event-1",
+        "conversation_id": "c",
+        "task_id": "t",
+        "reply_id": "r",
+        "source": "worker",
+        "execution_epoch": 1,
+        "business_seq": null,
+        "payload": {
+          "type": "TEXT_MESSAGE_CONTENT",
+          "delta": "你"
+        },
+        "text": {
+          "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+          "block_id": "wrong",
+          "content_version": 1,
+          "from_offset": 0,
+          "to_offset": 3
+        }
+      },
+      "expected": {
+        "action": "reject",
+        "state": {
+          "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+          "block_id": "b",
+          "content": "",
+          "content_version": 0,
+          "end_utf8": 0,
+          "closed": false,
+          "execution_epoch": 1
+        },
+        "reason": "identity_mismatch"
+      }
+    },
+    {
+      "name": "split_codepoint",
+      "state": {
+        "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+        "block_id": "b",
+        "content": "你",
+        "content_version": 1,
+        "end_utf8": 3,
+        "closed": false,
+        "execution_epoch": 1
+      },
+      "envelope": {
+        "schema_version": 1,
+        "event_id": "event-1",
+        "conversation_id": "c",
+        "task_id": "t",
+        "reply_id": "r",
+        "source": "worker",
+        "execution_epoch": 1,
+        "business_seq": null,
+        "payload": {
+          "type": "TEXT_MESSAGE_CONTENT",
+          "delta": "好"
+        },
+        "text": {
+          "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+          "block_id": "b",
+          "content_version": 2,
+          "from_offset": 1,
+          "to_offset": 4
+        }
+      },
+      "expected": {
+        "action": "reject",
+        "state": {
+          "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+          "block_id": "b",
+          "content": "你",
+          "content_version": 1,
+          "end_utf8": 3,
+          "closed": false,
+          "execution_epoch": 1
+        },
+        "reason": "invalid_utf8_boundary"
+      }
+    },
+    {
+      "name": "reasoning_block",
+      "state": {
+        "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+        "block_id": "b",
+        "content": "",
+        "content_version": 0,
+        "end_utf8": 0,
+        "closed": false,
+        "execution_epoch": 1
+      },
+      "envelope": {
+        "schema_version": 1,
+        "event_id": "event-1",
+        "conversation_id": "c",
+        "task_id": "t",
+        "reply_id": "r",
+        "source": "worker",
+        "execution_epoch": 1,
+        "business_seq": null,
+        "payload": {
+          "type": "REASONING_MESSAGE_CONTENT",
+          "delta": "你"
+        },
+        "text": {
+          "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+          "block_id": "b",
+          "content_version": 1,
+          "from_offset": 0,
+          "to_offset": 3
+        }
+      },
+      "expected": {
+        "action": "apply",
+        "state": {
+          "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+          "block_id": "b",
+          "content": "你",
+          "content_version": 1,
+          "end_utf8": 3,
+          "closed": false,
+          "execution_epoch": 1
+        },
+        "reason": null
+      }
+    },
+    {
+      "name": "fully_covered_new_version",
+      "state": {
+        "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+        "block_id": "b",
+        "content": "你好",
+        "content_version": 1,
+        "end_utf8": 6,
+        "closed": false,
+        "execution_epoch": 1
+      },
+      "envelope": {
+        "schema_version": 1,
+        "event_id": "event-1",
+        "conversation_id": "c",
+        "task_id": "t",
+        "reply_id": "r",
+        "source": "worker",
+        "execution_epoch": 1,
+        "business_seq": null,
+        "payload": {
+          "type": "TEXT_MESSAGE_CONTENT",
+          "delta": "好"
+        },
+        "text": {
+          "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+          "block_id": "b",
+          "content_version": 2,
+          "from_offset": 3,
+          "to_offset": 6
+        }
+      },
+      "expected": {
+        "action": "apply",
+        "state": {
+          "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+          "block_id": "b",
+          "content": "你好",
+          "content_version": 2,
+          "end_utf8": 6,
+          "closed": false,
+          "execution_epoch": 1
+        },
+        "reason": null
+      }
+    },
+    {
+      "name": "not_text_delta",
+      "state": {
+        "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+        "block_id": "b",
+        "content": "",
+        "content_version": 0,
+        "end_utf8": 0,
+        "closed": false,
+        "execution_epoch": 1
+      },
+      "envelope": {
+        "schema_version": 1,
+        "event_id": "business-1",
+        "conversation_id": "c",
+        "task_id": null,
+        "reply_id": null,
+        "source": "business",
+        "execution_epoch": null,
+        "business_seq": 1,
+        "payload": {
+          "type": "CUSTOM",
+          "name": "task_terminal"
+        },
+        "text": null
+      },
+      "expected": {
+        "action": "reject",
+        "state": {
+          "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+          "block_id": "b",
+          "content": "",
+          "content_version": 0,
+          "end_utf8": 0,
+          "closed": false,
+          "execution_epoch": 1
+        },
+        "reason": "not_text_delta"
+      }
+    }
+  ],
+  "snapshots": [
+    {
+      "schema_version": 1,
+      "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+      "conversation_id": "c",
+      "task_id": "t",
+      "reply_id": "r",
+      "execution_epoch": 1,
+      "snapshot_version": 1,
+      "blocks": [
+        {
+          "block_id": "b",
+          "kind": "text",
+          "text": "你好😀",
+          "content_version": 2,
+          "closed": true
+        }
+      ],
+      "covered_cursor": {
+        "schema_version": 1,
+        "conversation_id": "c",
+        "generation": "00000000-0000-4000-8000-000000000001",
+        "stream_id": "10-2"
+      },
+      "business_seq": 4,
+      "phase": "final",
+      "incomplete": false,
+      "process_end": 2
+    },
+    {
+      "schema_version": 1,
+      "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+      "conversation_id": "c",
+      "task_id": "t",
+      "reply_id": "r",
+      "execution_epoch": 1,
+      "snapshot_version": 1,
+      "blocks": [
+        {
+          "block_id": "b",
+          "kind": "text",
+          "text": "你好😀",
+          "content_version": 2,
+          "closed": true
+        }
+      ],
+      "covered_cursor": {
+        "schema_version": 1,
+        "conversation_id": "c",
+        "generation": "00000000-0000-4000-8000-000000000001",
+        "stream_id": "10-2"
+      },
+      "business_seq": 4,
+      "phase": "interrupted",
+      "incomplete": true,
+      "process_end": 2
+    }
+  ],
+  "resets": [
+    {
+      "schema_version": 1,
+      "conversation_id": "c",
+      "generation": "00000000-0000-4000-8000-000000000001",
+      "reason": "initial",
+      "snapshots": [
+        {
+          "schema_version": 1,
+          "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+          "conversation_id": "c",
+          "task_id": "t",
+          "reply_id": "r",
+          "execution_epoch": 1,
+          "snapshot_version": 1,
+          "blocks": [
+            {
+              "block_id": "b",
+              "kind": "text",
+              "text": "你好😀",
+              "content_version": 2,
+              "closed": true
+            }
+          ],
+          "covered_cursor": {
+            "schema_version": 1,
+            "conversation_id": "c",
+            "generation": "00000000-0000-4000-8000-000000000001",
+            "stream_id": "10-2"
+          },
+          "business_seq": 4,
+          "phase": "final",
+          "incomplete": false,
+          "process_end": 2
+        }
+      ],
+      "business_state": {
+        "task_status": "completed"
+      },
+      "business_seq": 4,
+      "sync_status": "synced"
+    }
+  ],
+  "resume": [
+    {
+      "name": "in_window",
+      "token": "rt1.eyJjb252ZXJzYXRpb25faWQiOiJjIiwiZ2VuZXJhdGlvbiI6IjAwMDAwMDAwLTAwMDAtNDAwMC04MDAwLTAwMDAwMDAwMDAwMSIsInNjaGVtYV92ZXJzaW9uIjoxLCJzdHJlYW1faWQiOiIxMC0yIn0",
+      "args": {
+        "conversation_id": "c",
+        "generation": "00000000-0000-4000-8000-000000000001",
+        "first_stream_id": "10-0",
+        "last_stream_id": "20-0"
+      },
+      "expected": {
+        "action": "resume",
+        "reason": null,
+        "cursor": {
+          "schema_version": 1,
+          "conversation_id": "c",
+          "generation": "00000000-0000-4000-8000-000000000001",
+          "stream_id": "10-2"
+        }
+      }
+    },
+    {
+      "name": "trimmed",
+      "token": "rt1.eyJjb252ZXJzYXRpb25faWQiOiJjIiwiZ2VuZXJhdGlvbiI6IjAwMDAwMDAwLTAwMDAtNDAwMC04MDAwLTAwMDAwMDAwMDAwMSIsInNjaGVtYV92ZXJzaW9uIjoxLCJzdHJlYW1faWQiOiIxMC0yIn0",
+      "args": {
+        "conversation_id": "c",
+        "generation": "00000000-0000-4000-8000-000000000001",
+        "first_stream_id": "11-0",
+        "last_stream_id": "20-0"
+      },
+      "expected": {
+        "action": "reset",
+        "reason": "trimmed",
+        "cursor": {
+          "schema_version": 1,
+          "conversation_id": "c",
+          "generation": "00000000-0000-4000-8000-000000000001",
+          "stream_id": "10-2"
+        }
+      }
+    },
+    {
+      "name": "legacy",
+      "token": "product-2e7d2c03a9507ae265ecf5b5356885a5:123",
+      "args": {
+        "conversation_id": "c",
+        "generation": "00000000-0000-4000-8000-000000000001",
+        "first_stream_id": "10-0",
+        "last_stream_id": "20-0"
+      },
+      "expected": {
+        "action": "reset",
+        "reason": "legacy_cursor",
+        "cursor": null
+      }
+    },
+    {
+      "name": "old_generation",
+      "token": "rt1.eyJjb252ZXJzYXRpb25faWQiOiJjIiwiZ2VuZXJhdGlvbiI6IjAwMDAwMDAwLTAwMDAtNDAwMC04MDAwLTAwMDAwMDAwMDAwMSIsInNjaGVtYV92ZXJzaW9uIjoxLCJzdHJlYW1faWQiOiIxMC0yIn0",
+      "args": {
+        "conversation_id": "c",
+        "generation": "00000000-0000-4000-8000-000000000002",
+        "first_stream_id": "10-0",
+        "last_stream_id": "20-0"
+      },
+      "expected": {
+        "action": "reset",
+        "reason": "generation_changed",
+        "cursor": {
+          "schema_version": 1,
+          "conversation_id": "c",
+          "generation": "00000000-0000-4000-8000-000000000001",
+          "stream_id": "10-2"
+        }
+      }
+    }
+  ],
+  "valid_envelopes": [
+    {
+      "name": "json_depth_64",
+      "value": {
+        "schema_version": 1,
+        "event_id": "business-1",
+        "conversation_id": "c",
+        "task_id": null,
+        "reply_id": null,
+        "source": "business",
+        "execution_epoch": null,
+        "business_seq": 1,
+        "payload": {
+          "type": "CUSTOM",
+          "extra": {
+            "nested": {
+              "nested": {
+                "nested": {
+                  "nested": {
+                    "nested": {
+                      "nested": {
+                        "nested": {
+                          "nested": {
+                            "nested": {
+                              "nested": {
+                                "nested": {
+                                  "nested": {
+                                    "nested": {
+                                      "nested": {
+                                        "nested": {
+                                          "nested": {
+                                            "nested": {
+                                              "nested": {
+                                                "nested": {
+                                                  "nested": {
+                                                    "nested": {
+                                                      "nested": {
+                                                        "nested": {
+                                                          "nested": {
+                                                            "nested": {
+                                                              "nested": {
+                                                                "nested": {
+                                                                  "nested": {
+                                                                    "nested": {
+                                                                      "nested": {
+                                                                        "nested": {
+                                                                          "nested": {
+                                                                            "nested": {
+                                                                              "nested": {
+                                                                                "nested": {
+                                                                                  "nested": {
+                                                                                    "nested": {
+                                                                                      "nested": {
+                                                                                        "nested": {
+                                                                                          "nested": {
+                                                                                            "nested": {
+                                                                                              "nested": {
+                                                                                                "nested": {
+                                                                                                  "nested": {
+                                                                                                    "nested": {
+                                                                                                      "nested": {
+                                                                                                        "nested": {
+                                                                                                          "nested": {
+                                                                                                            "nested": {
+                                                                                                              "nested": {
+                                                                                                                "nested": {
+                                                                                                                  "nested": {
+                                                                                                                    "nested": {
+                                                                                                                      "nested": {
+                                                                                                                        "nested": {
+                                                                                                                          "nested": {
+                                                                                                                            "nested": {
+                                                                                                                              "nested": {
+                                                                                                                                "nested": {
+                                                                                                                                  "nested": {
+                                                                                                                                    "nested": {
+                                                                                                                                      "nested": "leaf"
+                                                                                                                                    }
+                                                                                                                                  }
+                                                                                                                                }
+                                                                                                                              }
+                                                                                                                            }
+                                                                                                                          }
+                                                                                                                        }
+                                                                                                                      }
+                                                                                                                    }
+                                                                                                                  }
+                                                                                                                }
+                                                                                                              }
+                                                                                                            }
+                                                                                                          }
+                                                                                                        }
+                                                                                                      }
+                                                                                                    }
+                                                                                                  }
+                                                                                                }
+                                                                                              }
+                                                                                            }
+                                                                                          }
+                                                                                        }
+                                                                                      }
+                                                                                    }
+                                                                                  }
+                                                                                }
+                                                                              }
+                                                                            }
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                }
+                                                              }
+                                                            }
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "text": null
+      }
+    }
+  ],
+  "invalid_envelopes": [
+    {
+      "name": "source_array",
+      "value": {
+        "schema_version": 1,
+        "event_id": "business-1",
+        "conversation_id": "c",
+        "task_id": null,
+        "reply_id": null,
+        "source": [
+          "business"
+        ],
+        "execution_epoch": null,
+        "business_seq": 1,
+        "payload": {
+          "type": "CUSTOM",
+          "name": "task_terminal"
+        },
+        "text": null
+      }
+    },
+    {
+      "name": "json_depth_65",
+      "value": {
+        "schema_version": 1,
+        "event_id": "business-1",
+        "conversation_id": "c",
+        "task_id": null,
+        "reply_id": null,
+        "source": "business",
+        "execution_epoch": null,
+        "business_seq": 1,
+        "payload": {
+          "type": "CUSTOM",
+          "extra": {
+            "nested": {
+              "nested": {
+                "nested": {
+                  "nested": {
+                    "nested": {
+                      "nested": {
+                        "nested": {
+                          "nested": {
+                            "nested": {
+                              "nested": {
+                                "nested": {
+                                  "nested": {
+                                    "nested": {
+                                      "nested": {
+                                        "nested": {
+                                          "nested": {
+                                            "nested": {
+                                              "nested": {
+                                                "nested": {
+                                                  "nested": {
+                                                    "nested": {
+                                                      "nested": {
+                                                        "nested": {
+                                                          "nested": {
+                                                            "nested": {
+                                                              "nested": {
+                                                                "nested": {
+                                                                  "nested": {
+                                                                    "nested": {
+                                                                      "nested": {
+                                                                        "nested": {
+                                                                          "nested": {
+                                                                            "nested": {
+                                                                              "nested": {
+                                                                                "nested": {
+                                                                                  "nested": {
+                                                                                    "nested": {
+                                                                                      "nested": {
+                                                                                        "nested": {
+                                                                                          "nested": {
+                                                                                            "nested": {
+                                                                                              "nested": {
+                                                                                                "nested": {
+                                                                                                  "nested": {
+                                                                                                    "nested": {
+                                                                                                      "nested": {
+                                                                                                        "nested": {
+                                                                                                          "nested": {
+                                                                                                            "nested": {
+                                                                                                              "nested": {
+                                                                                                                "nested": {
+                                                                                                                  "nested": {
+                                                                                                                    "nested": {
+                                                                                                                      "nested": {
+                                                                                                                        "nested": {
+                                                                                                                          "nested": {
+                                                                                                                            "nested": {
+                                                                                                                              "nested": {
+                                                                                                                                "nested": {
+                                                                                                                                  "nested": {
+                                                                                                                                    "nested": {
+                                                                                                                                      "nested": {
+                                                                                                                                        "nested": "leaf"
+                                                                                                                                      }
+                                                                                                                                    }
+                                                                                                                                  }
+                                                                                                                                }
+                                                                                                                              }
+                                                                                                                            }
+                                                                                                                          }
+                                                                                                                        }
+                                                                                                                      }
+                                                                                                                    }
+                                                                                                                  }
+                                                                                                                }
+                                                                                                              }
+                                                                                                            }
+                                                                                                          }
+                                                                                                        }
+                                                                                                      }
+                                                                                                    }
+                                                                                                  }
+                                                                                                }
+                                                                                              }
+                                                                                            }
+                                                                                          }
+                                                                                        }
+                                                                                      }
+                                                                                    }
+                                                                                  }
+                                                                                }
+                                                                              }
+                                                                            }
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                }
+                                                              }
+                                                            }
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "text": null
+      }
+    },
+    {
+      "name": "payload_nul",
+      "value": {
+        "schema_version": 1,
+        "event_id": "business-1",
+        "conversation_id": "c",
+        "task_id": null,
+        "reply_id": null,
+        "source": "business",
+        "execution_epoch": null,
+        "business_seq": 1,
+        "payload": {
+          "type": "CUSTOM",
+          "extra": "\u0000"
+        },
+        "text": null
+      }
+    },
+    {
+      "name": "unsafe_number",
+      "value": {
+        "schema_version": 1,
+        "event_id": "business-1",
+        "conversation_id": "c",
+        "task_id": null,
+        "reply_id": null,
+        "source": "business",
+        "execution_epoch": null,
+        "business_seq": 1,
+        "payload": {
+          "type": "CUSTOM",
+          "extra": 9007199254740992
+        },
+        "text": null
+      }
+    },
+    {
+      "name": "schema_bool",
+      "value": {
+        "schema_version": true,
+        "event_id": "business-1",
+        "conversation_id": "c",
+        "task_id": null,
+        "reply_id": null,
+        "source": "business",
+        "execution_epoch": null,
+        "business_seq": 1,
+        "payload": {
+          "type": "CUSTOM",
+          "name": "task_terminal"
+        },
+        "text": null
+      }
+    },
+    {
+      "name": "extra_field",
+      "value": {
+        "schema_version": 1,
+        "event_id": "business-1",
+        "conversation_id": "c",
+        "task_id": null,
+        "reply_id": null,
+        "source": "business",
+        "execution_epoch": null,
+        "business_seq": 1,
+        "payload": {
+          "type": "CUSTOM",
+          "name": "task_terminal"
+        },
+        "text": null,
+        "protocol_version": 1
+      }
+    }
+  ],
+  "invalid_snapshots": [
+    {
+      "name": "phase_array",
+      "value": {
+        "schema_version": 1,
+        "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+        "conversation_id": "c",
+        "task_id": "t",
+        "reply_id": "r",
+        "execution_epoch": 1,
+        "snapshot_version": 1,
+        "blocks": [
+          {
+            "block_id": "b",
+            "kind": "text",
+            "text": "你好😀",
+            "content_version": 2,
+            "closed": true
+          }
+        ],
+        "covered_cursor": {
+          "schema_version": 1,
+          "conversation_id": "c",
+          "generation": "00000000-0000-4000-8000-000000000001",
+          "stream_id": "10-2"
+        },
+        "business_seq": 4,
+        "phase": [
+          "partial"
+        ],
+        "incomplete": false,
+        "process_end": 2
+      }
+    },
+    {
+      "name": "block_kind_array",
+      "value": {
+        "schema_version": 1,
+        "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+        "conversation_id": "c",
+        "task_id": "t",
+        "reply_id": "r",
+        "execution_epoch": 1,
+        "snapshot_version": 1,
+        "blocks": [
+          {
+            "block_id": "b",
+            "kind": [
+              "text"
+            ],
+            "text": "你好😀",
+            "content_version": 2,
+            "closed": true
+          }
+        ],
+        "covered_cursor": {
+          "schema_version": 1,
+          "conversation_id": "c",
+          "generation": "00000000-0000-4000-8000-000000000001",
+          "stream_id": "10-2"
+        },
+        "business_seq": 4,
+        "phase": "final",
+        "incomplete": false,
+        "process_end": 2
+      }
+    },
+    {
+      "name": "final_incomplete_snapshot",
+      "value": {
+        "schema_version": 1,
+        "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+        "conversation_id": "c",
+        "task_id": "t",
+        "reply_id": "r",
+        "execution_epoch": 1,
+        "snapshot_version": 1,
+        "blocks": [
+          {
+            "block_id": "b",
+            "kind": "text",
+            "text": "你好😀",
+            "content_version": 2,
+            "closed": true
+          }
+        ],
+        "covered_cursor": {
+          "schema_version": 1,
+          "conversation_id": "c",
+          "generation": "00000000-0000-4000-8000-000000000001",
+          "stream_id": "10-2"
+        },
+        "business_seq": 4,
+        "phase": "final",
+        "incomplete": true,
+        "process_end": 2
+      }
+    }
+  ],
+  "invalid_resets": [
+    {
+      "name": "reason_array",
+      "value": {
+        "schema_version": 1,
+        "conversation_id": "c",
+        "generation": "00000000-0000-4000-8000-000000000001",
+        "reason": [
+          "initial"
+        ],
+        "snapshots": [
+          {
+            "schema_version": 1,
+            "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+            "conversation_id": "c",
+            "task_id": "t",
+            "reply_id": "r",
+            "execution_epoch": 1,
+            "snapshot_version": 1,
+            "blocks": [
+              {
+                "block_id": "b",
+                "kind": "text",
+                "text": "你好😀",
+                "content_version": 2,
+                "closed": true
+              }
+            ],
+            "covered_cursor": {
+              "schema_version": 1,
+              "conversation_id": "c",
+              "generation": "00000000-0000-4000-8000-000000000001",
+              "stream_id": "10-2"
+            },
+            "business_seq": 4,
+            "phase": "final",
+            "incomplete": false,
+            "process_end": 2
+          }
+        ],
+        "business_state": {
+          "task_status": "completed"
+        },
+        "business_seq": 4,
+        "sync_status": "synced"
+      }
+    },
+    {
+      "name": "sync_status_array",
+      "value": {
+        "schema_version": 1,
+        "conversation_id": "c",
+        "generation": "00000000-0000-4000-8000-000000000001",
+        "reason": "initial",
+        "snapshots": [
+          {
+            "schema_version": 1,
+            "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+            "conversation_id": "c",
+            "task_id": "t",
+            "reply_id": "r",
+            "execution_epoch": 1,
+            "snapshot_version": 1,
+            "blocks": [
+              {
+                "block_id": "b",
+                "kind": "text",
+                "text": "你好😀",
+                "content_version": 2,
+                "closed": true
+              }
+            ],
+            "covered_cursor": {
+              "schema_version": 1,
+              "conversation_id": "c",
+              "generation": "00000000-0000-4000-8000-000000000001",
+              "stream_id": "10-2"
+            },
+            "business_seq": 4,
+            "phase": "final",
+            "incomplete": false,
+            "process_end": 2
+          }
+        ],
+        "business_state": {
+          "task_status": "completed"
+        },
+        "business_seq": 4,
+        "sync_status": [
+          "synced"
+        ]
+      }
+    },
+    {
+      "name": "synced_incomplete_snapshot",
+      "value": {
+        "schema_version": 1,
+        "conversation_id": "c",
+        "generation": "00000000-0000-4000-8000-000000000001",
+        "reason": "initial",
+        "snapshots": [
+          {
+            "schema_version": 1,
+            "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+            "conversation_id": "c",
+            "task_id": "t",
+            "reply_id": "r",
+            "execution_epoch": 1,
+            "snapshot_version": 1,
+            "blocks": [
+              {
+                "block_id": "b",
+                "kind": "text",
+                "text": "你好😀",
+                "content_version": 2,
+                "closed": true
+              }
+            ],
+            "covered_cursor": {
+              "schema_version": 1,
+              "conversation_id": "c",
+              "generation": "00000000-0000-4000-8000-000000000001",
+              "stream_id": "10-2"
+            },
+            "business_seq": 4,
+            "phase": "interrupted",
+            "incomplete": true,
+            "process_end": 2
+          }
+        ],
+        "business_state": {
+          "task_status": "completed"
+        },
+        "business_seq": 4,
+        "sync_status": "synced"
+      }
+    },
+    {
+      "name": "synced_lost_log_partial",
+      "value": {
+        "schema_version": 1,
+        "conversation_id": "c",
+        "generation": "00000000-0000-4000-8000-000000000001",
+        "reason": "log_lost",
+        "snapshots": [
+          {
+            "schema_version": 1,
+            "message_id": "92f5a1e2-358c-5e5b-b102-34cb5d5f0fd4",
+            "conversation_id": "c",
+            "task_id": "t",
+            "reply_id": "r",
+            "execution_epoch": 1,
+            "snapshot_version": 1,
+            "blocks": [
+              {
+                "block_id": "b",
+                "kind": "text",
+                "text": "你好😀",
+                "content_version": 2,
+                "closed": false
+              }
+            ],
+            "covered_cursor": null,
+            "business_seq": 4,
+            "phase": "partial",
+            "incomplete": true,
+            "process_end": 2
+          }
+        ],
+        "business_state": {
+          "task_status": "completed"
+        },
+        "business_seq": 4,
+        "sync_status": "synced"
+      }
+    }
+  ],
+  "payload_budget_cases": [
+    {
+      "name": "ascii_max",
+      "fill": "x",
+      "payload_bytes": 262144,
+      "valid": true
+    },
+    {
+      "name": "unicode_max",
+      "fill": "你",
+      "payload_bytes": 262144,
+      "valid": true
+    },
+    {
+      "name": "ascii_over",
+      "fill": "x",
+      "payload_bytes": 262145,
+      "valid": false
+    },
+    {
+      "name": "unicode_over",
+      "fill": "你",
+      "payload_bytes": 262145,
+      "valid": false
+    }
+  ],
+  "reset_anchor_cases": [
+    {
+      "name": "partial_none_synced",
+      "phase": "partial",
+      "anchor": "none",
+      "sync_status": "synced",
+      "valid": false
+    },
+    {
+      "name": "partial_none_awaiting_snapshot",
+      "phase": "partial",
+      "anchor": "none",
+      "sync_status": "awaiting_snapshot",
+      "valid": true
+    },
+    {
+      "name": "partial_old_generation_synced",
+      "phase": "partial",
+      "anchor": "old_generation",
+      "sync_status": "synced",
+      "valid": false
+    },
+    {
+      "name": "partial_old_generation_awaiting_snapshot",
+      "phase": "partial",
+      "anchor": "old_generation",
+      "sync_status": "awaiting_snapshot",
+      "valid": true
+    },
+    {
+      "name": "partial_current_synced",
+      "phase": "partial",
+      "anchor": "current",
+      "sync_status": "synced",
+      "valid": true
+    },
+    {
+      "name": "partial_current_awaiting_snapshot",
+      "phase": "partial",
+      "anchor": "current",
+      "sync_status": "awaiting_snapshot",
+      "valid": true
+    },
+    {
+      "name": "approval_none_synced",
+      "phase": "approval",
+      "anchor": "none",
+      "sync_status": "synced",
+      "valid": false
+    },
+    {
+      "name": "approval_none_awaiting_snapshot",
+      "phase": "approval",
+      "anchor": "none",
+      "sync_status": "awaiting_snapshot",
+      "valid": true
+    },
+    {
+      "name": "approval_old_generation_synced",
+      "phase": "approval",
+      "anchor": "old_generation",
+      "sync_status": "synced",
+      "valid": false
+    },
+    {
+      "name": "approval_old_generation_awaiting_snapshot",
+      "phase": "approval",
+      "anchor": "old_generation",
+      "sync_status": "awaiting_snapshot",
+      "valid": true
+    },
+    {
+      "name": "approval_current_synced",
+      "phase": "approval",
+      "anchor": "current",
+      "sync_status": "synced",
+      "valid": true
+    },
+    {
+      "name": "approval_current_awaiting_snapshot",
+      "phase": "approval",
+      "anchor": "current",
+      "sync_status": "awaiting_snapshot",
+      "valid": true
+    },
+    {
+      "name": "final_none_synced",
+      "phase": "final",
+      "anchor": "none",
+      "sync_status": "synced",
+      "valid": true
+    },
+    {
+      "name": "final_none_awaiting_snapshot",
+      "phase": "final",
+      "anchor": "none",
+      "sync_status": "awaiting_snapshot",
+      "valid": true
+    },
+    {
+      "name": "final_old_generation_synced",
+      "phase": "final",
+      "anchor": "old_generation",
+      "sync_status": "synced",
+      "valid": true
+    },
+    {
+      "name": "final_old_generation_awaiting_snapshot",
+      "phase": "final",
+      "anchor": "old_generation",
+      "sync_status": "awaiting_snapshot",
+      "valid": true
+    },
+    {
+      "name": "final_current_synced",
+      "phase": "final",
+      "anchor": "current",
+      "sync_status": "synced",
+      "valid": true
+    },
+    {
+      "name": "final_current_awaiting_snapshot",
+      "phase": "final",
+      "anchor": "current",
+      "sync_status": "awaiting_snapshot",
+      "valid": true
+    }
+  ]
+}

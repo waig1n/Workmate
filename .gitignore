@@ -1,0 +1,62 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+htmlcov/
+.coverage
+
+# Node
+node_modules/
+.next/
+out/
+.turbo/
+
+# Env & secrets
+.env
+.env.*
+!.env.example
+
+# Data
+data/
+workspace-data/
+artifact-storage/
+runtime/logs/
+*.db
+*.sqlite3
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+
+logs/
+
+# Local coding-agent session state
+.codex/
+.agents/
+.claude/settings.json
+.zcode/
+.claude/
+.playwright-cli/
+output/
+
+# Local deployment overrides and generated working material
+docker-compose.override.yml
+docker-compose.release.yml
+work/
+frontend/test-results/
+frontend/playwright-report/
+
+# Generated build, test, and workspace output
+outputs/
+working/
+build/
+dist/
+coverage/
+test-results/
+playwright-report/
+*.sqlite

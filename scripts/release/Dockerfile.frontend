@@ -1,0 +1,22 @@
+# syntax=docker/dockerfile:1
+ARG NODE_BASE=node:22-alpine
+FROM ${NODE_BASE} AS builder
+WORKDIR /app
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm ci --no-audit --no-fund
+COPY frontend/ ./
+ENV PRODUCT_API_URL=http://gateway:8080 NEXT_TELEMETRY_DISABLED=1 WORKMATE_STANDALONE=1
+COPY scripts/release/frontend-licenses.cjs /tools/frontend-licenses.cjs
+RUN node /tools/frontend-licenses.cjs /app/node_modules /licenses
+RUN npm run build
+
+FROM ${NODE_BASE} AS frontend
+WORKDIR /app
+ENV NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 HOSTNAME=0.0.0.0 PORT=3000
+COPY --from=builder /licenses /usr/share/doc/workmate/third-party
+COPY --from=builder /app/LICENSE /app/NOTICE /usr/share/doc/workmate/
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/public ./public
+EXPOSE 3000
+CMD ["node", "server.js"]

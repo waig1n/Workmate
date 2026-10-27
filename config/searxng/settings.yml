@@ -1,0 +1,120 @@
+# Use image defaults with an explicit engine allowlist, rather than relying on disabled-engine defaults.
+use_default_settings:
+  engines:
+    # Engine names must exactly match the names in the pinned image version.
+    keep_only:
+      - baidu
+      - baidu images
+      - 360search
+      - sogou
+      - sogou images
+      - bing
+      - bing images
+      - bing news
+
+server:
+  # Listen only on the container network; Compose publishes no host port.
+  bind_address: "0.0.0.0"
+  # Internal HTTP port; default 8080.
+  port: 8080
+  # Inject SEARXNG_SECRET through the environment; the Compose entrypoint requires a nonempty value. Never store it here.
+  # Disable visitor rate limiting for internal access; this does not limit concurrency or aggregate requests.
+  limiter: false
+  # Disable public-instance features.
+  public_instance: false
+
+search:
+  # Default safe search: 0 off / 1 moderate / 2 strict. Support varies by engine.
+  # A default preference, not an enforceable enterprise content filter.
+  safe_search: 1
+  # Prefer Chinese results by default; does not guarantee all results are Chinese.
+  default_lang: "zh-CN"
+  # Enable JSON for workmate search and HTML for internal viewing; Compose publishes no host port.
+  formats:
+    - json
+    - html
+
+outgoing:
+  # Default per-engine request timeout, seconds; below the workmate search adapter's 30-second timeout.
+  request_timeout: 8.0
+  # Maximum engine request timeout, seconds; prevents prolonged connection occupancy.
+  max_request_timeout: 15.0
+
+
+# Engine configuration
+engines:
+  # Baidu web search
+  - name: baidu
+    engine: baidu
+    shortcut: bd
+    categories: [general, web]
+    timeout: 10.0
+    weight: 100
+    disabled: false
+
+  # Baidu image search
+  - name: baidu images
+    engine: baidu
+    baidu_category: images
+    shortcut: bdi
+    categories: [images]
+    timeout: 10.0
+    weight: 100
+    disabled: false
+
+  # 360 Search
+  - name: 360search
+    engine: 360search
+    shortcut: 360
+    categories: [general, web]
+    timeout: 10.0
+    weight: 100
+    disabled: false
+
+  # Sogou web search
+  - name: sogou
+    engine: sogou
+    shortcut: sg
+    categories: [general, web]
+    timeout: 10.0
+    weight: 100
+    disabled: false
+
+  # Sogou image search
+  - name: sogou images
+    engine: sogou_images
+    shortcut: sogoui
+    categories: [images]
+    timeout: 10.0
+    weight: 100
+    disabled: false
+
+  # Bing China web search
+  - name: bing
+    engine: bing
+    base_url: "https://cn.bing.com/search"   # Use the China endpoint.
+    shortcut: bi
+    categories: [general, web]
+    timeout: 10.0
+    weight: 100
+    disabled: false
+
+  # Bing image search
+  - name: bing images
+    engine: bing_images
+    base_url: "https://cn.bing.com"
+    shortcut: bii
+    categories: [images]
+    timeout: 10.0
+    weight: 100
+    disabled: false
+
+  # Bing News (optional)
+  - name: bing news
+    engine: bing_news
+    base_url: "https://cn.bing.com"
+    shortcut: bin
+    categories: [news]
+    timeout: 10.0
+    weight: 100
+    disabled: false

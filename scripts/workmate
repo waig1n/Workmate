@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+if [ -x "$ROOT/backend/.venv/bin/python" ]; then
+  exec "$ROOT/backend/.venv/bin/python" "$ROOT/scripts/deploy.py" "$@"
+fi
+exec python3 "$ROOT/scripts/deploy.py" "$@"

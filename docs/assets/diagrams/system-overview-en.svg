@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1120" viewBox="0 0 1200 1120" role="img" aria-labelledby="title desc">
+<title id="title">Enterprise AI: components and dependencies</title><desc id="desc">Product and execution services share infrastructure; connections denote dependencies, not execution order.</desc>
+<defs><pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#e6e7e2"/></pattern>
+<marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#778694" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect width="1200" height="1120" rx="24" fill="#fafbf8"/><rect x="1" y="1" width="1198" height="1118" rx="23" fill="url(#dots)" stroke="#e1e6e2"/>
+<g font-family="Inter, Noto Sans CJK SC, Segoe UI, Arial, sans-serif">
+<rect x="48" y="36" width="32" height="32" rx="8" fill="#191815"/>
+<path d="m55 45 4 14h4l2-8 2 8h4l4-14h-4l-2 9-2-9h-4l-2 9-2-9z" fill="#fffefa"/>
+<text x="92" y="59" font-size="18" font-weight="700" fill="#242c36" text-anchor="start">WORKMATE</text>
+<text x="1152" y="58" font-size="14" font-weight="500" fill="#647180" text-anchor="end">01 / SYSTEM OVERVIEW</text>
+<text x="64" y="115" font-size="32" font-weight="700" fill="#242c36" text-anchor="start">Enterprise AI: components and dependencies</text>
+<text x="64" y="148" font-size="18" font-weight="400" fill="#647180" text-anchor="start">Unified access · enterprise governance · native execution · shared infrastructure</text>
+<rect x="64" y="182" width="336" height="92" rx="16" fill="#ffffff" stroke="#dce3df"/>
+<rect x="84" y="204" width="5" height="22" rx="2" fill="#087f70"/>
+<text x="102" y="222" font-size="22" font-weight="650" fill="#242c36" text-anchor="start">Web workspace</text>
+<text x="86" y="252" font-size="17" font-weight="400" fill="#647180" text-anchor="start">Chat · files · deliverables</text>
+<path d="M 232 274 V 296 H 400 V 330" fill="none" stroke="#778694" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="432" y="182" width="336" height="92" rx="16" fill="#ffffff" stroke="#dce3df"/>
+<rect x="452" y="204" width="5" height="22" rx="2" fill="#087f70"/>
+<text x="470" y="222" font-size="22" font-weight="650" fill="#242c36" text-anchor="start">Schedules</text>
+<text x="454" y="252" font-size="17" font-weight="400" fill="#647180" text-anchor="start">One-time · daily · weekly</text>
+<path d="M 600 274 V 296 H 400 V 330" fill="none" stroke="#778694" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="800" y="182" width="336" height="92" rx="16" fill="#ffffff" stroke="#dce3df"/>
+<rect x="820" y="204" width="5" height="22" rx="2" fill="#087f70"/>
+<text x="838" y="222" font-size="22" font-weight="650" fill="#242c36" text-anchor="start">Enterprise IM</text>
+<text x="822" y="252" font-size="17" font-weight="400" fill="#647180" text-anchor="start">WeCom · Feishu · DingTalk</text>
+<path d="M 968 274 V 296 H 400 V 330" fill="none" stroke="#778694" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="64" y="330" width="680" height="150" rx="18" fill="#ffffff" stroke="#bccfc7"/>
+<text x="88" y="367" font-size="24" font-weight="700" fill="#242c36" text-anchor="start">Gateway / FastAPI</text>
+<text x="88" y="402" font-size="18" font-weight="400" fill="#647180" text-anchor="start">Authentication · RBAC + Scope · Task admission</text>
+<text x="88" y="435" font-size="17" font-weight="400" fill="#647180" text-anchor="start">Transactions · outbox publisher · streams and file access</text>
+<rect x="64" y="550" width="680" height="162" rx="18" fill="#ffffff" stroke="#bccfc7"/>
+<text x="88" y="587" font-size="24" font-weight="700" fill="#242c36" text-anchor="start">Native Workers</text>
+<text x="88" y="622" font-size="20" font-weight="400" fill="#647180" text-anchor="start">AgentScope Core 2.0.7 · Sandbox / Tools</text>
+<text x="88" y="655" font-size="20" font-weight="400" fill="#647180" text-anchor="start">Workspace · ReMe · multiple replicas</text>
+<text x="88" y="686" font-size="16" font-weight="400" fill="#647180" text-anchor="start">Receives commands via Redis; claims and verifies authority in PG</text>
+<text x="88" y="515" font-size="16" font-weight="400" fill="#4268be" text-anchor="start">Commands and realtime bodies use Redis; Worker drives Core directly</text>
+<rect x="820" y="330" width="316" height="676" rx="18" fill="#edf2ef" stroke="#bccfc7"/>
+<text x="844" y="367" font-size="23" font-weight="700" fill="#242c36" text-anchor="start">Shared infrastructure</text>
+<rect x="838" y="390" width="280" height="108" rx="12" fill="#ffffff" stroke="#dce3df"/>
+<text x="852" y="420" font-size="20" font-weight="650" fill="#087f70" text-anchor="start">PostgreSQL</text>
+<text x="852" y="449" font-size="14" font-weight="400" fill="#647180" text-anchor="start">Business facts · authority · snapshots</text>
+<text x="852" y="473" font-size="13" font-weight="400" fill="#647180" text-anchor="start">owner / epoch / lease</text>
+<rect x="838" y="510" width="280" height="108" rx="12" fill="#ffffff" stroke="#dce3df"/>
+<text x="852" y="540" font-size="20" font-weight="650" fill="#087f70" text-anchor="start">Redis Streams</text>
+<text x="852" y="569" font-size="14" font-weight="400" fill="#647180" text-anchor="start">Commands and realtime bodies</text>
+<text x="852" y="593" font-size="13" font-weight="400" fill="#647180" text-anchor="start">Does not grant execution authority</text>
+<rect x="838" y="630" width="280" height="108" rx="12" fill="#ffffff" stroke="#dce3df"/>
+<text x="852" y="660" font-size="20" font-weight="650" fill="#087f70" text-anchor="start">S3-compatible storage</text>
+<text x="852" y="689" font-size="14" font-weight="400" fill="#647180" text-anchor="start">Skill packages · knowledge sources</text>
+<text x="852" y="713" font-size="13" font-weight="400" fill="#647180" text-anchor="start">Optional files and checkpoints</text>
+<rect x="838" y="750" width="280" height="108" rx="12" fill="#ffffff" stroke="#dce3df"/>
+<text x="852" y="780" font-size="20" font-weight="650" fill="#087f70" text-anchor="start">Persistent volumes</text>
+<text x="852" y="809" font-size="14" font-weight="400" fill="#647180" text-anchor="start">Workspace · local ReMe data</text>
+<text x="852" y="833" font-size="13" font-weight="400" fill="#647180" text-anchor="start">Local attachments and artifacts (default)</text>
+<rect x="838" y="870" width="280" height="108" rx="12" fill="#ffffff" stroke="#dce3df"/>
+<text x="852" y="900" font-size="20" font-weight="650" fill="#087f70" text-anchor="start">Qdrant (optional)</text>
+<text x="852" y="929" font-size="14" font-weight="400" fill="#647180" text-anchor="start">Knowledge vector indexes</text>
+<text x="852" y="953" font-size="13" font-weight="400" fill="#647180" text-anchor="start">Used by knowledge retrieval</text>
+<path d="M 744 405 H 782 V 630 H 744" fill="none" stroke="#778694" stroke-width="2" stroke-linejoin="round" stroke-dasharray="6 5" marker-end="url(#arrow)" marker-start="url(#arrow)"/>
+<path d="M 782 518 H 820" fill="none" stroke="#778694" stroke-width="2" stroke-linejoin="round" stroke-dasharray="6 5" marker-end="url(#arrow)" marker-start="url(#arrow)"/>
+<text x="788" y="540" font-size="12" font-weight="400" fill="#4268be" text-anchor="start">Uses</text>
+<path d="M 404 712 V 758" fill="none" stroke="#778694" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="64" y="758" width="680" height="248" rx="18" fill="#f3f5fa" stroke="#dce3df"/>
+<text x="88" y="793" font-size="23" font-weight="700" fill="#242c36" text-anchor="start">Capabilities and integrations</text>
+<rect x="88" y="814" width="304" height="76" rx="10" fill="#ffffff"/>
+<text x="103" y="842" font-size="19" font-weight="650" fill="#087f70" text-anchor="start">Model providers</text>
+<text x="103" y="869" font-size="14" font-weight="400" fill="#647180" text-anchor="start">Configurable models and endpoints</text>
+<rect x="416" y="814" width="304" height="76" rx="10" fill="#ffffff"/>
+<text x="431" y="842" font-size="19" font-weight="650" fill="#087f70" text-anchor="start">Skill / MCP</text>
+<text x="431" y="869" font-size="14" font-weight="400" fill="#647180" text-anchor="start">Managed capabilities · explicit grants</text>
+<rect x="88" y="902" width="304" height="76" rx="10" fill="#ffffff"/>
+<text x="103" y="930" font-size="19" font-weight="650" fill="#087f70" text-anchor="start">Knowledge retrieval</text>
+<text x="103" y="957" font-size="14" font-weight="400" fill="#647180" text-anchor="start">Access filtering · search and citations</text>
+<rect x="416" y="902" width="304" height="76" rx="10" fill="#ffffff"/>
+<text x="431" y="930" font-size="19" font-weight="650" fill="#087f70" text-anchor="start">Web tools</text>
+<text x="431" y="957" font-size="14" font-weight="400" fill="#647180" text-anchor="start">Optional search and page fetching</text>
+<text x="64" y="1045" font-size="17" font-weight="400" fill="#647180" text-anchor="start">Dashed links: shared infrastructure dependencies; each service uses only what its role requires.</text>
+<text x="64" y="1077" font-size="16" font-weight="400" fill="#647180" text-anchor="start">Solid links: ingress or capability calls. Browser access is through the product API; this is not a sequence diagram.</text>
+</g></svg>

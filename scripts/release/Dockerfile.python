@@ -1,0 +1,39 @@
+# syntax=docker/dockerfile:1
+ARG PYTHON_BASE=python:3.12-slim-bookworm
+FROM ${PYTHON_BASE} AS package-base
+ARG PIP_INDEX_URL=https://pypi.tuna.tsinghua.edu.cn/simple
+COPY scripts/release/configure_package_sources.py /tmp/configure_package_sources.py
+RUN python /tmp/configure_package_sources.py --pip-index-url "${PIP_INDEX_URL}" \
+    && rm /tmp/configure_package_sources.py
+
+FROM package-base AS builder
+ARG PROJECT
+WORKDIR /src
+COPY scripts/release/build-requirements.txt /build-requirements.txt
+RUN python -m pip install --no-cache-dir --only-binary=:all: --require-hashes -r /build-requirements.txt
+COPY ${PROJECT}/requirements.lock /requirements.lock
+RUN python -m pip install --no-cache-dir --ignore-installed --only-binary=:all: --require-hashes --prefix=/install -r /requirements.lock
+COPY packages /src/packages
+COPY ${PROJECT} /src/project
+RUN python -m pip install --no-cache-dir --no-deps --no-build-isolation --prefix=/install /src/packages/contracts /src/packages/product /src/project
+COPY scripts/release/__init__.py scripts/release/inventory.py scripts/release/policy.py /tools/release/
+RUN PYTHONPATH=/tools python -m release.inventory /install/lib/python3.12/site-packages /install/source-files.json
+
+FROM package-base AS base
+WORKDIR /app
+COPY LICENSE NOTICE /usr/share/doc/workmate/
+COPY --from=builder /install/ /usr/local/
+ENV PYTHONDONTWRITEBYTECODE=1
+
+FROM base AS gateway
+COPY backend/alembic /app/alembic
+COPY backend/alembic.ini /app/alembic.ini
+ENV WORKMATE_ALEMBIC_CONFIG=/app/alembic.ini
+EXPOSE 8080
+CMD ["workmate-start-product-api"]
+
+FROM base AS runtime
+RUN apt-get update && apt-get install -y --no-install-recommends bubblewrap ca-certificates ripgrep fontconfig fonts-noto-cjk && rm -rf /var/lib/apt/lists/*
+ENV WORKMATE_WORKSPACE_BASEDIR=/data/workspaces WORKMATE_REME_BASEDIR=/data/reme
+EXPOSE 8000
+CMD ["python", "-m", "workmate_runtime.roles.worker"]

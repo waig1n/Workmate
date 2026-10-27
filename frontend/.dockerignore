@@ -1,0 +1,61 @@
+# Never copy host build artifacts into the image: host node_modules
+# carry glibc native binaries (sharp, lightningcss, @next/swc) that
+# cannot load on node:22-alpine's musl, and a stale .next breaks the
+# build cache assumptions.
+node_modules
+.next
+out
+*.tsbuildinfo
+next-env.d.ts
+.env
+.env.*
+**/.env
+**/.env.*
+npm-debug.log*
+.git
+
+# Generated in the builder from locked dependencies, never copy host copies.
+public/preview-libs
+
+# Local runtime data and generated artifacts are not build inputs.
+data
+**/data
+output
+**/output
+outputs
+**/outputs
+**/out
+work
+**/work
+working
+**/working
+workspace-data
+**/workspace-data
+artifact-storage
+**/artifact-storage
+logs
+**/logs
+build
+**/build
+dist
+**/dist
+coverage
+**/coverage
+test-results
+**/test-results
+playwright-report
+**/playwright-report
+.codex
+**/.codex
+.agents
+**/.agents
+.claude
+**/.claude
+.zcode
+**/.zcode
+.playwright-cli
+**/.playwright-cli
+**/*.db
+**/*.sqlite
+**/*.sqlite3
+**/*.log

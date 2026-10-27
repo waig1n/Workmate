@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1130" viewBox="0 0 1200 1130" role="img" aria-labelledby="title desc">
+<title id="title">任务状态：执行、审批与终止</title><desc id="desc">产品 Task 的八种状态与主要转换；故障恢复创建新 Task，不复活旧 Task。</desc>
+<defs><pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#e6e7e2"/></pattern>
+<marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#778694" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect width="1200" height="1130" rx="24" fill="#fafbf8"/><rect x="1" y="1" width="1198" height="1128" rx="23" fill="url(#dots)" stroke="#e1e6e2"/>
+<g font-family="Inter, Noto Sans CJK SC, Segoe UI, Arial, sans-serif">
+<rect x="48" y="36" width="32" height="32" rx="8" fill="#191815"/>
+<path d="m55 45 4 14h4l2-8 2 8h4l4-14h-4l-2 9-2-9h-4l-2 9-2-9z" fill="#fffefa"/>
+<text x="92" y="59" font-size="18" font-weight="700" fill="#242c36" text-anchor="start">WORKMATE</text>
+<text x="1152" y="58" font-size="14" font-weight="500" fill="#647180" text-anchor="end">04 / 任务状态</text>
+<text x="64" y="115" font-size="32" font-weight="700" fill="#242c36" text-anchor="start">任务状态：执行、审批与终止</text>
+<text x="64" y="148" font-size="18" font-weight="400" fill="#647180" text-anchor="start">产品状态视图；不同于 Worker 内部执行状态与命令状态</text>
+<rect x="64" y="218" width="280" height="94" rx="16" fill="#ffffff" stroke="#bccfc7"/>
+<text x="84" y="253" font-size="21" font-weight="650" fill="#242c36" text-anchor="start">created</text>
+<text x="84" y="286" font-size="17" font-weight="400" fill="#647180" text-anchor="start">已创建 / 排队等待</text>
+<rect x="460" y="218" width="280" height="94" rx="16" fill="#f0f8f4" stroke="#bccfc7"/>
+<text x="480" y="253" font-size="21" font-weight="650" fill="#242c36" text-anchor="start">running</text>
+<text x="480" y="286" font-size="17" font-weight="400" fill="#647180" text-anchor="start">正在执行</text>
+<rect x="856" y="218" width="280" height="94" rx="16" fill="#f0f8f4" stroke="#bccfc7"/>
+<text x="876" y="253" font-size="21" font-weight="650" fill="#242c36" text-anchor="start">completed</text>
+<text x="876" y="286" font-size="17" font-weight="400" fill="#647180" text-anchor="start">正常完成 · 终态</text>
+<path d="M 344 265 H 460" fill="none" stroke="#778694" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="402" y="244" font-size="15" font-weight="400" fill="#647180" text-anchor="middle">开始执行</text>
+<path d="M 740 265 H 856" fill="none" stroke="#778694" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="798" y="244" font-size="15" font-weight="400" fill="#647180" text-anchor="middle">正常结束</text>
+<rect x="460" y="440" width="280" height="94" rx="16" fill="#fff6e8" stroke="#bccfc7"/>
+<text x="480" y="475" font-size="21" font-weight="650" fill="#242c36" text-anchor="start">awaiting_permission</text>
+<text x="480" y="508" font-size="17" font-weight="400" fill="#647180" text-anchor="start">等待人工审批</text>
+<path d="M 540 312 V 440" fill="none" stroke="#778694" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="525" y="370" font-size="15" font-weight="400" fill="#647180" text-anchor="end">需要审批</text>
+<path d="M 660 440 V 312" fill="none" stroke="#778694" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="677" y="358" font-size="15" font-weight="400" fill="#647180" text-anchor="start">决定持久化</text>
+<text x="677" y="383" font-size="15" font-weight="400" fill="#647180" text-anchor="start">重新授权后续跑</text>
+<rect x="64" y="660" width="280" height="94" rx="16" fill="#fff6e8" stroke="#bccfc7"/>
+<text x="84" y="695" font-size="21" font-weight="650" fill="#242c36" text-anchor="start">cancelling</text>
+<text x="84" y="728" font-size="17" font-weight="400" fill="#647180" text-anchor="start">停止意图已受理</text>
+<rect x="460" y="660" width="280" height="94" rx="16" fill="#ffffff" stroke="#bccfc7"/>
+<text x="480" y="695" font-size="21" font-weight="650" fill="#242c36" text-anchor="start">cancelled</text>
+<text x="480" y="728" font-size="17" font-weight="400" fill="#647180" text-anchor="start">停止已结算 · 终态</text>
+<path d="M 204 312 V 660" fill="none" stroke="#778694" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="218" y="567" font-size="15" font-weight="400" fill="#647180" text-anchor="start">已准入任务：Stop</text>
+<path d="M 460 290 H 386 V 620 H 270 V 660" fill="none" stroke="#778694" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M 460 487 H 386" fill="none" stroke="#778694" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M 344 707 H 460" fill="none" stroke="#778694" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="402" y="681" font-size="14" font-weight="400" fill="#647180" text-anchor="middle">完成清理</text>
+<path d="M 100 312 H 44 V 800 H 600 V 754" fill="none" stroke="#778694" stroke-width="2" stroke-linejoin="round" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<text x="64" y="825" font-size="16" font-weight="400" fill="#647180" text-anchor="start">未准入队列任务：可直接取消，不启动 Core</text>
+<rect x="64" y="865" width="1072" height="205" rx="18" fill="#f4f5f8" stroke="#dce3df"/>
+<text x="88" y="900" font-size="23" font-weight="700" fill="#242c36" text-anchor="start">异常出口与恢复边界</text>
+<rect x="88" y="925" width="280" height="94" rx="16" fill="#fff1ef" stroke="#bccfc7"/>
+<text x="108" y="960" font-size="21" font-weight="650" fill="#242c36" text-anchor="start">failed</text>
+<text x="108" y="993" font-size="17" font-weight="400" fill="#647180" text-anchor="start">执行失败 / 隔离 · 终态</text>
+<rect x="400" y="925" width="280" height="94" rx="16" fill="#fff6e8" stroke="#bccfc7"/>
+<text x="420" y="960" font-size="21" font-weight="650" fill="#242c36" text-anchor="start">interrupted</text>
+<text x="420" y="993" font-size="17" font-weight="400" fill="#647180" text-anchor="start">执行中断 / 迭代上限 · 终态</text>
+<text x="708" y="946" font-size="16" font-weight="400" fill="#647180" text-anchor="start">异常可从非终态进入 failed。</text>
+<text x="708" y="975" font-size="16" font-weight="400" fill="#647180" text-anchor="start">故障恢复：满足条件并显式确认后，</text>
+<text x="708" y="1004" font-size="16" font-weight="400" fill="#647180" text-anchor="start">创建新 Task / Session / Workspace。</text>
+<text x="88" y="1046" font-size="16" font-weight="400" fill="#647180" text-anchor="start">终态不是资源安全证明；隔离与清理证据仍需独立检查。</text>
+<path d="M 740 290 H 780 V 330 H 1160 V 894 H 1136" fill="none" stroke="#778694" stroke-width="2" stroke-linejoin="round" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<text x="870" y="580" font-size="17" font-weight="400" fill="#a96b19" text-anchor="start">异常 / 中断出口</text>
+<text x="64" y="1102" font-size="17" font-weight="400" fill="#647180" text-anchor="start">审批续跑保留 Task / Reply；拒绝某次工具调用不等于取消整个任务。</text>
+</g></svg>

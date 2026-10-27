@@ -1,0 +1,20 @@
+# Only isolated acceptance policy; never load deployment credentials here.
+product:
+  # Deterministic model wiring; no remote provider calls occur in this fixture.
+  models:
+    # Default test profile name.
+    default: fixture
+    # Explicit allowlist of fixture profiles.
+    profiles:
+      # Synthetic profile replaced by the Worker test model.
+      fixture:
+        # Production adapter discriminator; the model implementation is replaced.
+        type: openai
+        # Synthetic model identity for audit/usage records.
+        model: fixture
+        # Isolated dummy value supplied by the launcher, not a provider secret.
+        api_key_env: WORKMATE_LOAD_MODEL_KEY
+  # Avoid unrelated assistant bootstrap work in measured samples.
+  workspace_assistant:
+    # Boolean; disabled only for this test configuration.
+    enabled: false

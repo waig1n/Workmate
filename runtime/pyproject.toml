@@ -1,0 +1,64 @@
+[project]
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+name = "workmate-runtime"
+version = "0.1.0"
+description = "AgentScope 2.0 runtime launcher for Workmate Enterprise Agent Workspace"
+requires-python = ">=3.12"
+dependencies = [
+    "workmate-contracts==0.1.0",
+    "workmate-product==0.1.0",
+    # The app-service stack (fastapi/sqlalchemy/apscheduler/redis) lives
+    # behind extras. 2.0.7 adds the per-agent/session workspace kwargs
+    # (list_mcps/add_mcp/...) that workmate_runtime's capability sync depends
+    # on, makes WorkspaceManagerBase.assign_workspace_id async and moves
+    # ReMeMiddleware to AgentScope's own embedded config.
+    # Runtime adapter, ReMe compatibility and AG-UI contract are verified
+    # against this exact release. AgentScope patch releases may change private
+    # workspace/middleware APIs, so upgrades require an explicit review.
+    "agentscope[memory-reme,service,storage-sql,storage-redis,workspace-docker,workspace-k8s,workspace-e2b,workspace-daytona,workspace-opensandbox]==2.0.7",
+    "uvicorn[standard]>=0.32",
+    "asyncpg>=0.30",
+    "redis>=5.0",
+    "httpx>=0.27",
+    "qdrant-client>=1.14,<2",
+    "aioboto3>=14,<16",
+    "pypdf>=5,<7",
+    "python-docx>=1.1,<2",
+    "pandas>=2.2,<3",
+    "python-multipart>=0.0.20",
+    "pydantic>=2.7",
+    "pyyaml>=6.0",
+    "cryptography>=43",
+    # Builtin Skills: installed under /usr/local for read-only Bubblewrap reuse.
+    "duckdb==1.5.5",
+    "openpyxl==3.1.5",
+    "python-pptx==1.0.2",
+    "Pillow==12.3.0",
+    "matplotlib==3.11.1",
+]
+
+[project.scripts]
+workmate-worker = "workmate_runtime.roles.worker:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.24",
+    "aiosqlite>=0.20",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv.sources]
+workmate-contracts = { path = "../packages/contracts", editable = true }
+workmate-product = { path = "../packages/product", editable = true }
+
+[tool.hatch.build.targets.wheel]
+packages = ["workmate_runtime"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]

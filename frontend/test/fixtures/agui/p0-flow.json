@@ -1,0 +1,14 @@
+[
+  { "type": "RUN_STARTED", "threadId": "conversation-1", "runId": "reply-1" },
+  { "type": "STEP_STARTED", "stepName": "enterprise-model" },
+  { "type": "TEXT_MESSAGE_START", "messageId": "answer-1", "role": "assistant" },
+  { "type": "TEXT_MESSAGE_CONTENT", "messageId": "answer-1", "delta": "# 分析完成\n\n" },
+  { "type": "TOOL_CALL_START", "toolCallId": "tool-1", "toolCallName": "present_files" },
+  { "type": "TOOL_CALL_ARGS", "toolCallId": "tool-1", "delta": "{\"paths\":[\"output/report.md\"]}" },
+  { "type": "CUSTOM", "name": "TOOL_RESULT_END", "value": { "toolCallId": "tool-1", "state": "success" } },
+  { "type": "STEP_FINISHED", "stepName": "enterprise-model" },
+  { "type": "TEXT_MESSAGE_CONTENT", "messageId": "answer-1", "delta": "成果已生成。" },
+  { "type": "TEXT_MESSAGE_END", "messageId": "answer-1" },
+  { "type": "CUSTOM", "name": "ARTIFACT_CREATED", "value": { "artifactId": "artifact-1", "taskId": "task-1", "name": "report.md", "mimeType": "text/markdown", "size": 32, "version": 1, "changeType": "created", "createdAt": "2026-08-31T00:00:00Z" } },
+  { "type": "RUN_FINISHED", "threadId": "conversation-1", "runId": "reply-1" }
+]

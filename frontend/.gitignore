@@ -1,0 +1,12 @@
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+.env*.local
+coverage/
+playwright-report/
+test-results/
+
+# Generated from pinned npm chart dependencies during build/dev.
+public/preview-libs/

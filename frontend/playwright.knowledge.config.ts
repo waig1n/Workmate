@@ -1,0 +1,2 @@
+import {defineConfig,devices} from '@playwright/test';
+export default defineConfig({testDir:'./e2e',testMatch:'knowledge-bases.spec.ts',fullyParallel:false,retries:0,reporter:'line',use:{baseURL:'http://127.0.0.1:3117',trace:'retain-on-failure',screenshot:'only-on-failure'},projects:[{name:'chromium',use:{...devices['Desktop Chrome']}}],webServer:{command:'npx next dev -p 3117',url:'http://127.0.0.1:3117/login',reuseExistingServer:false,timeout:120000}});

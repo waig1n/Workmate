@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="850" viewBox="0 0 1200 850" role="img" aria-labelledby="title desc">
+<title id="title">审批续跑与故障恢复，各有明确边界</title><desc id="desc">Approval resume retains Task and Reply identity; explicit failure recovery creates a new Task, Session and Workspace and requires verified evidence.</desc>
+<defs><pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#e6e7e2"/></pattern>
+<marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#778694" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect width="1200" height="850" rx="24" fill="#fafbf8"/><rect x="1" y="1" width="1198" height="848" rx="23" fill="url(#dots)" stroke="#e1e6e2"/>
+<g font-family="Inter, Noto Sans CJK SC, Segoe UI, Arial, sans-serif">
+<rect x="48" y="36" width="32" height="32" rx="8" fill="#191815"/>
+<path d="m55 45 4 14h4l2-8 2 8h4l4-14h-4l-2 9-2-9h-4l-2 9-2-9z" fill="#fffefa"/>
+<text x="92" y="59" font-size="18" font-weight="700" fill="#242c36" text-anchor="start">WORKMATE</text>
+<text x="1152" y="58" font-size="14" font-weight="500" fill="#647180" text-anchor="end">03 / 任务连续性</text>
+<text x="64" y="115" font-size="32" font-weight="700" fill="#242c36" text-anchor="start">审批续跑与故障恢复，各有明确边界</text>
+<text x="64" y="148" font-size="18" font-weight="400" fill="#647180" text-anchor="start">相同的会话，不同的恢复路径；状态、执行权与文件证据分别校验。</text>
+<rect x="64" y="184" width="1072" height="249" rx="20" fill="#f0f8f4" stroke="#c7ded3"/>
+<text x="88" y="222" font-size="23" font-weight="700" fill="#087f70" text-anchor="start">01  审批续跑</text>
+<rect x="88" y="248" width="304" height="94" rx="16" fill="#ffffff" stroke="#dce3df"/>
+<rect x="108" y="270" width="5" height="22" rx="2" fill="#087f70"/>
+<text x="126" y="288" font-size="22" font-weight="650" fill="#242c36" text-anchor="start">运行中的任务</text>
+<text x="110" y="318" font-size="17" font-weight="400" fill="#647180" text-anchor="start">Task A / Reply A</text>
+<rect x="448" y="248" width="304" height="94" rx="16" fill="#ffffff" stroke="#dce3df"/>
+<rect x="468" y="270" width="5" height="22" rx="2" fill="#087f70"/>
+<text x="486" y="288" font-size="22" font-weight="650" fill="#242c36" text-anchor="start">等待决定</text>
+<text x="470" y="318" font-size="17" font-weight="400" fill="#647180" text-anchor="start">保存状态 · 持久化审批</text>
+<rect x="808" y="248" width="304" height="94" rx="16" fill="#ffffff" stroke="#dce3df"/>
+<rect x="828" y="270" width="5" height="22" rx="2" fill="#087f70"/>
+<text x="846" y="288" font-size="22" font-weight="650" fill="#242c36" text-anchor="start">继续同一任务</text>
+<text x="830" y="318" font-size="17" font-weight="400" fill="#647180" text-anchor="start">Task A / Reply A</text>
+<path d="M 392 295 H 448" fill="none" stroke="#778694" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M 752 295 H 808" fill="none" stroke="#778694" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="88" y="380" font-size="19" font-weight="500" fill="#087f70" text-anchor="start">保留 Task / Reply 身份，重新检查当前权限。</text>
+<text x="88" y="408" font-size="17" font-weight="400" fill="#647180" text-anchor="start">冷续跑还需验证原存储身份与安全暂停证据。</text>
+<rect x="64" y="466" width="1072" height="259" rx="20" fill="#fff7e9" stroke="#e4d5b7"/>
+<text x="88" y="504" font-size="23" font-weight="700" fill="#a96b19" text-anchor="start">02  显式故障恢复</text>
+<rect x="88" y="531" width="304" height="118" rx="16" fill="#ffffff" stroke="#dce3df"/>
+<rect x="108" y="553" width="5" height="22" rx="2" fill="#a96b19"/>
+<text x="126" y="571" font-size="21" font-weight="650" fill="#242c36" text-anchor="start">旧执行发生故障</text>
+<text x="110" y="601" font-size="17" font-weight="400" fill="#647180" text-anchor="start">Task A / Session A</text>
+<rect x="448" y="531" width="304" height="118" rx="16" fill="#ffffff" stroke="#dce3df"/>
+<rect x="468" y="553" width="5" height="22" rx="2" fill="#a96b19"/>
+<text x="486" y="571" font-size="21" font-weight="650" fill="#242c36" text-anchor="start">校验证据与隔离</text>
+<text x="470" y="601" font-size="17" font-weight="400" fill="#647180" text-anchor="start">执行权 · 资源清理 · 检查点</text>
+<rect x="808" y="531" width="304" height="118" rx="16" fill="#ffffff" stroke="#dce3df"/>
+<rect x="828" y="553" width="5" height="22" rx="2" fill="#a96b19"/>
+<text x="846" y="571" font-size="21" font-weight="650" fill="#242c36" text-anchor="start">创建新的执行</text>
+<text x="830" y="601" font-size="17" font-weight="400" fill="#647180" text-anchor="start">Task B / Session B</text>
+<text x="830" y="626" font-size="17" font-weight="400" fill="#647180" text-anchor="start">New Workspace</text>
+<path d="M 392 582 H 448" fill="none" stroke="#778694" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M 752 582 H 808" fill="none" stroke="#778694" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="88" y="688" font-size="17" font-weight="500" fill="#a96b19" text-anchor="start">在同一 Conversation 中恢复；不自动重放结果未知的外部操作。</text>
+<text x="64" y="771" font-size="20" font-weight="650" fill="#242c36" text-anchor="start">消息快照 ≠ Core 状态快照 ≠ Workspace 文件检查点</text>
+<text x="64" y="805" font-size="17" font-weight="400" fill="#647180" text-anchor="start">文件检查点需启用且受后端能力限制；租约过期本身不授权接管。</text>
+</g></svg>

@@ -1,0 +1,8 @@
+Workmate
+Copyright 2026 Workmate contributors
+
+Original Workmate code is licensed under the Apache License, Version 2.0.
+Third-party components retain their own licenses and copyright notices.
+AgentScope-derived MCP code includes LICENSE.agentscope beside its source.
+Bundled Skills include applicable LICENSE and NOTICE files in their directories.
+See docs/en/third-party.md or docs/zh-CN/third-party.md for source attribution.

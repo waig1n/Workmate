@@ -1,0 +1,85 @@
+{
+  "format_version": 1,
+  "engine_version": "2.0.7",
+  "state": {
+    "session_id": "session-1",
+    "summary": "",
+    "context": [
+      {
+        "name": "user",
+        "content": [
+          {
+            "type": "text",
+            "text": "write",
+            "id": "703c90c0f07f43a6ab7653edb6312bb8",
+            "created_at": "2026-09-15T13:44:35.027936",
+            "finished_at": null
+          }
+        ],
+        "role": "user",
+        "id": "86fee68a81d14c6c95d070e22eb4c057",
+        "metadata": {},
+        "created_at": "2026-09-15T13:44:35.027918",
+        "usage": null,
+        "finished_at": "2026-09-15T13:44:35.027918",
+        "finished_reason": null,
+        "structured_output": null,
+        "error": null
+      },
+      {
+        "name": "test",
+        "content": [
+          {
+            "type": "tool_call",
+            "id": "call-1",
+            "name": "write_record",
+            "input": "{}",
+            "state": "asking",
+            "suggested_rules": [
+              {
+                "tool_name": "write_record",
+                "rule_content": null,
+                "behavior": "allow",
+                "source": "suggested"
+              }
+            ],
+            "created_at": "2026-09-15T13:44:35.026249",
+            "finished_at": null
+          }
+        ],
+        "role": "assistant",
+        "id": "764b311a65f84d36a730e7f3b32711a8",
+        "metadata": {},
+        "created_at": "2026-09-15T13:44:35.028430",
+        "usage": null,
+        "finished_at": null,
+        "finished_reason": null,
+        "structured_output": null,
+        "error": null
+      }
+    ],
+    "reply_context": {
+      "reply_id": "764b311a65f84d36a730e7f3b32711a8",
+      "cur_iter": 0,
+      "structured_schema": null,
+      "structured_output": null
+    },
+    "permission_context": {
+      "mode": "default",
+      "working_directories": {},
+      "allow_rules": {},
+      "deny_rules": {},
+      "ask_rules": {}
+    },
+    "tool_context": {
+      "max_cache_files": 100,
+      "max_cache_bytes": 25000.0,
+      "read_file_cache": [],
+      "activated_groups": []
+    },
+    "tasks_context": {
+      "tasks": []
+    },
+    "middle_context": {}
+  }
+}

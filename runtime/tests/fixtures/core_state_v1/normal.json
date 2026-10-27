@@ -1,0 +1,75 @@
+{
+  "format_version": 1,
+  "engine_version": "2.0.7",
+  "state": {
+    "session_id": "session-1",
+    "summary": "",
+    "context": [
+      {
+        "name": "user",
+        "content": [
+          {
+            "type": "text",
+            "text": "Golden first question",
+            "id": "e56d2386f77a43f690480ccab496d597",
+            "created_at": "2026-09-15T13:44:35.025683",
+            "finished_at": null
+          }
+        ],
+        "role": "user",
+        "id": "a9e515a8d64f4a9daa5e2a9b2c10c6b8",
+        "metadata": {},
+        "created_at": "2026-09-15T13:44:35.025663",
+        "usage": null,
+        "finished_at": "2026-09-15T13:44:35.025663",
+        "finished_reason": null,
+        "structured_output": null,
+        "error": null
+      },
+      {
+        "name": "test",
+        "content": [
+          {
+            "type": "text",
+            "text": "Golden first answer",
+            "id": "bd715fe092944c37843e3e7d0d54f26f",
+            "created_at": "2026-09-15T13:44:35.023370",
+            "finished_at": null
+          }
+        ],
+        "role": "assistant",
+        "id": "cd915b9fc23e43af8455763482da8ee4",
+        "metadata": {},
+        "created_at": "2026-09-15T13:44:35.026063",
+        "usage": null,
+        "finished_at": null,
+        "finished_reason": null,
+        "structured_output": null,
+        "error": null
+      }
+    ],
+    "reply_context": {
+      "reply_id": "cd915b9fc23e43af8455763482da8ee4",
+      "cur_iter": 1,
+      "structured_schema": null,
+      "structured_output": null
+    },
+    "permission_context": {
+      "mode": "default",
+      "working_directories": {},
+      "allow_rules": {},
+      "deny_rules": {},
+      "ask_rules": {}
+    },
+    "tool_context": {
+      "max_cache_files": 100,
+      "max_cache_bytes": 25000.0,
+      "read_file_cache": [],
+      "activated_groups": []
+    },
+    "tasks_context": {
+      "tasks": []
+    },
+    "middle_context": {}
+  }
+}

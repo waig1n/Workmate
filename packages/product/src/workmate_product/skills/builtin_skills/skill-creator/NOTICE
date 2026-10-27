@@ -1,0 +1,13 @@
+This Skill includes material adapted from DeerFlow:
+https://github.com/bytedance/deer-flow/tree/main/skills/public/skill-creator
+DeerFlow copyright and MIT terms are reproduced in LICENSE.deerflow.
+Any more specific upstream license in this directory remains applicable.
+
+Modified for Workmate: workspace paths, available-tool instructions, permission
+boundaries, delivery behavior, and local execution helpers where applicable.
+Original Workmate additions are Copyright 2026 Workmate contributors,
+licensed under Apache-2.0. Existing third-party terms are not replaced.
+
+Includes an Anthropic Skill distributed through DeerFlow.
+https://github.com/anthropics/skills/tree/main/skills/skill-creator
+Apache-2.0 terms are preserved in LICENSE.txt.

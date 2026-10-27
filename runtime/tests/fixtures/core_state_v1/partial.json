@@ -1,0 +1,120 @@
+{
+  "format_version": 1,
+  "engine_version": "2.0.7",
+  "state": {
+    "session_id": "session-1",
+    "summary": "",
+    "context": [
+      {
+        "name": "user",
+        "content": [
+          {
+            "type": "text",
+            "text": "Golden two writes",
+            "id": "ead8303fbca24994aa8b57a89a3539d0",
+            "created_at": "2026-09-15T13:44:35.031976",
+            "finished_at": null
+          }
+        ],
+        "role": "user",
+        "id": "f259636e0b5541279b44a968e3036df7",
+        "metadata": {},
+        "created_at": "2026-09-15T13:44:35.031946",
+        "usage": null,
+        "finished_at": "2026-09-15T13:44:35.031946",
+        "finished_reason": null,
+        "structured_output": null,
+        "error": null
+      },
+      {
+        "name": "test",
+        "content": [
+          {
+            "type": "tool_call",
+            "id": "call-1",
+            "name": "write_record",
+            "input": "{}",
+            "state": "finished",
+            "suggested_rules": [
+              {
+                "tool_name": "write_record",
+                "rule_content": null,
+                "behavior": "allow",
+                "source": "suggested"
+              }
+            ],
+            "created_at": "2026-09-15T13:44:35.029718",
+            "finished_at": null
+          },
+          {
+            "type": "tool_call",
+            "id": "call-2",
+            "name": "write_record",
+            "input": "{}",
+            "state": "asking",
+            "suggested_rules": [
+              {
+                "tool_name": "write_record",
+                "rule_content": null,
+                "behavior": "allow",
+                "source": "suggested"
+              }
+            ],
+            "created_at": "2026-09-15T13:44:35.029728",
+            "finished_at": null
+          },
+          {
+            "type": "tool_result",
+            "id": "call-1",
+            "name": "write_record",
+            "output": [
+              {
+                "type": "text",
+                "text": "written",
+                "id": "9ef4917f46f448e7ad9fcafe3b381b13",
+                "created_at": "2026-09-15T13:44:35.036680",
+                "finished_at": null
+              }
+            ],
+            "state": "success",
+            "metadata": {},
+            "created_at": "2026-09-15T13:44:35.036775",
+            "finished_at": null
+          }
+        ],
+        "role": "assistant",
+        "id": "810d39a48aba4942b7405578b90657ec",
+        "metadata": {},
+        "created_at": "2026-09-15T13:44:35.032357",
+        "usage": null,
+        "finished_at": null,
+        "finished_reason": null,
+        "structured_output": null,
+        "error": null
+      }
+    ],
+    "reply_context": {
+      "reply_id": "810d39a48aba4942b7405578b90657ec",
+      "cur_iter": 0,
+      "structured_schema": null,
+      "structured_output": null
+    },
+    "permission_context": {
+      "mode": "default",
+      "working_directories": {},
+      "allow_rules": {},
+      "deny_rules": {},
+      "ask_rules": {}
+    },
+    "tool_context": {
+      "max_cache_files": 100,
+      "max_cache_bytes": 25000.0,
+      "read_file_cache": [],
+      "activated_groups": []
+    },
+    "tasks_context": {
+      "tasks": []
+    },
+    "middle_context": {}
+  }
+}
